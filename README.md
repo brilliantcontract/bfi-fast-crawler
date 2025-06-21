@@ -46,3 +46,11 @@ mvn test
 
 The provided test is disabled by default because it requires network access to ScrapeNinja.
 
+## Manual verification
+
+Use [galeinai.com](https://galeinai.com/authsearch/sm/index.html) to confirm that
+all social links were extracted correctly from a website. When comparing the
+generated `websites.csv` with another CSV file, the diff tool at
+[textcompare.org](https://www.textcompare.org/csv) can highlight any
+differences.
+
