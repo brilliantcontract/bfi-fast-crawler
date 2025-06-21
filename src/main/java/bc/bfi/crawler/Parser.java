@@ -52,16 +52,57 @@ class Parser {
         }
 
         String extractSocialLinks(String html) {
-            Set<String> allLinks = new LinkedHashSet<>();
+            Map<String, String> canonical = new LinkedHashMap<>();
             for (String patternStr : socialPatterns.values()) {
                 Pattern pattern = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(html);
                 while (matcher.find()) {
                     String url = matcher.group("value");
-                    allLinks.add(unifyUrlOfSocialNetwork(url));
+                    String normalized = unifyUrlOfSocialNetwork(url);
+                    String key = buildCanonicalKey(normalized);
+                    String existing = canonical.get(key);
+                    if (existing == null) {
+                        canonical.put(key, normalized);
+                    } else {
+                        canonical.put(key, choosePreferred(existing, normalized));
+                    }
                 }
             }
-            return allLinks.stream().collect(Collectors.joining("◙"));
+            return canonical.values().stream().collect(Collectors.joining("◙"));
+        }
+
+        private String buildCanonicalKey(String url) {
+            String key = url.toLowerCase();
+            key = key.replaceFirst("^https?://", "");
+            key = key.replaceFirst("^www\\.", "");
+            key = key.replaceFirst("^m\\.", "");
+            return key;
+        }
+
+        private String choosePreferred(String a, String b) {
+            if (a.equals(b)) {
+                return a;
+            }
+            // Prefer non-www facebook variant
+            if (a.contains("facebook.com") && b.contains("facebook.com")) {
+                if (a.contains("www.facebook.com")) {
+                    return b;
+                }
+                if (b.contains("www.facebook.com")) {
+                    return a;
+                }
+            }
+            // Prefer https and www for twitter/x
+            if ((a.contains("twitter.com") || a.contains("x.com")) &&
+                (b.contains("twitter.com") || b.contains("x.com"))) {
+                String aw = a.replaceFirst("^http://", "https://");
+                if (!aw.contains("www.")) aw = aw.replaceFirst("://", "://www.");
+                String bw = b.replaceFirst("^http://", "https://");
+                if (!bw.contains("www.")) bw = bw.replaceFirst("://", "://www.");
+                return aw.compareTo(bw) <= 0 ? aw : bw;
+            }
+            // Otherwise keep the first
+            return a;
         }
 
         /**
@@ -72,46 +113,21 @@ class Parser {
             if (url == null) {
                 return "";
             }
+
             url = url.trim();
             if (!url.toLowerCase().startsWith("http")) {
                 url = "https://" + url;
             }
-            try {
-                URL parsed = new URL(url);
-                String host = parsed.getHost();
-                if (!host.startsWith("www.")) {
-                    host = "www." + host;
-                }
-                String path = parsed.getPath();
-                String query = parsed.getQuery();
-                String fragment = parsed.getRef();
-                StringBuilder sb = new StringBuilder();
-                sb.append("https://").append(host);
-                if (path != null && !path.isEmpty()) {
-                    sb.append(path);
-                }
-                if (query != null && !query.isEmpty()) {
-                    sb.append('?').append(query);
-                }
-                if (fragment != null && !fragment.isEmpty()) {
-                    sb.append('#').append(fragment);
-                }
-                url = sb.toString();
-            } catch (MalformedURLException ex) {
-                url = url.replaceFirst("^http://", "https://");
-                if (!url.startsWith("https://www.")) {
-                    url = url.replaceFirst("^https://(www\\.)?", "https://www.");
-                }
-            }
 
+            // Remove trailing slash if present
             if (url.endsWith("/")) {
                 url = url.substring(0, url.length() - 1);
             }
 
             // Normalize alternative Facebook and Reddit domains
-            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)?fb\\.com", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.)?fb\\.com", "://facebook.com");
             url = url.replaceFirst("(?i)://(?:www\\.)?fb\\.me", "://facebook.com");
-            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)?facebook\\.com", "://facebook.com");
+            url = url.replaceFirst("(?i)://m\\.facebook\\.com", "://facebook.com");
             url = url.replaceFirst("(?i)://(?:www\\.)?redd\\.it", "://reddit.com");
             url = url.replaceFirst("(?i)://(?:old\\.|www\\.)?reddit\\.com", "://reddit.com");
             url = url.replaceFirst("(?i)://reddit.com/u/([^/?#]+)", "://reddit.com/user/$1");
