@@ -172,7 +172,7 @@ class Parser {
     private class PhoneParser {
 
         private static final String phoneRegex
-                = "((?<=[\\W])|^)(?<value>(\\(?\\d{3}\\)?[. -])?\\d{3}[. -]\\d{4}|\\+?\\d{1,3}[. -]\\d{3}[. -]\\d{3}[. -]\\d{4})((?=[\\W])|$)";
+                = "(?<!\\d)(?<value>(?:\\+?1[\\s.-]*)?\\(?\\d{3}\\)?[\\s.-]*\\d{3}[\\s.-]*\\d{4}|\\d{10,11}|\\d{2}-\\d{7})(?!\\d)";
         private final Pattern pattern;
 
         PhoneParser() {
