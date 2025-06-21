@@ -101,6 +101,9 @@ class Parser {
 
             removeShortestPhoneNumbers(phoneNumbers);
 
+            // Remove duplicate numbers while keeping the original order
+            phoneNumbers = new ArrayList<>(new LinkedHashSet<>(phoneNumbers));
+
             return phoneNumbers.stream().collect(Collectors.joining("◙"));
         }
 
@@ -125,7 +128,9 @@ class Parser {
         }
 
         String extractEmails(String pageContent) {
-            List<String> emails = new ArrayList<>();
+            // Use a set to automatically remove duplicates while preserving
+            // the order of discovery so test expectations remain stable.
+            Set<String> emails = new LinkedHashSet<>();
             Matcher matcher = pattern.matcher(pageContent);
             while (matcher.find()) {
                 String email = matcher.group("value");
