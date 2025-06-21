@@ -192,7 +192,7 @@ class Parser {
 
             String contactPageUrl = candidateLinks.get(0);
             contactPageUrl = appendHostname(contactPageUrl, url);
-            return contactPageUrl;
+            return normalizeContactUrl(contactPageUrl);
         }
 
         private String appendHostname(String contactPageUrl, String url) {
@@ -200,6 +200,18 @@ class Parser {
                 contactPageUrl = Utils.extractBaseUrl(url) + contactPageUrl;
             }
 
+            return contactPageUrl;
+        }
+
+        private String normalizeContactUrl(String contactPageUrl) {
+            if (contactPageUrl == null) {
+                return "";
+            }
+
+            contactPageUrl = contactPageUrl.trim();
+            if (contactPageUrl.endsWith("/")) {
+                contactPageUrl = contactPageUrl.substring(0, contactPageUrl.length() - 1);
+            }
             return contactPageUrl;
         }
 
