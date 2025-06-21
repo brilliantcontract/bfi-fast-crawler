@@ -226,8 +226,9 @@ class Parser {
                 return "";
             }
 
-            // Normalize common malformed mailto links but keep the original
-            pageContent = pageContent.replace("mailto:%20", "mailto:");
+            // Normalize common malformed mailto links and remove the scheme
+            pageContent = pageContent.replace("mailto:%20", "");
+            pageContent = pageContent.replaceAll("(?i)mailto:", "");
 
             // Deduplicate emails while comparing by a canonical form that
             // strips leading "20" which often appears from encoded spaces in
