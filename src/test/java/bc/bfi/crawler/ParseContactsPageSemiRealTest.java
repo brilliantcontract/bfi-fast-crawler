@@ -123,28 +123,28 @@ public class ParseContactsPageSemiRealTest {
     public void testBayoaksmiami() throws IOException {
         String page = readString(Paths.get("src/test/resources/bayoaksmiami.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://bayoaksmiami.com");
-        assertThat(contact, is("https://bayoaksmiami.com/contact/"));
+        assertThat(contact, is("https://bayoaksmiami.com/contact"));
     }
 
     @Test
     public void testBctgm() throws IOException {
         String page = readString(Paths.get("src/test/resources/bctgm.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://bctgm.org");
-        assertThat(contact, is("https://www.instagram.com/bctgm/"));
+        assertThat(contact, is("https://www.instagram.com/bctgm"));
     }
 
     @Test
     public void testBethanyBeachFire() throws IOException {
         String page = readString(Paths.get("src/test/resources/bethanybeachfire.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://bethanybeachfire.com");
-        assertThat(contact, is("https://bethanybeachfire.com/contact-us/"));
+        assertThat(contact, is("https://bethanybeachfire.com/contact-us"));
     }
 
     @Test
     public void testBetterLife() throws IOException {
         String page = readString(Paths.get("src/test/resources/better-life-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://better-life.org");
-        assertThat(contact, is("https://better-life.org/contact/"));
+        assertThat(contact, is("https://better-life.org/contact"));
     }
 
     @Test
@@ -201,7 +201,7 @@ public class ParseContactsPageSemiRealTest {
     public void testNiagaracc() throws IOException {
         String page = readString(Paths.get("src/test/resources/niagaracc.suny.edu-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://niagaracc.suny.edu");
-        assertThat(contact, is("https://sunyniagara.edu/sbdc/"));
+        assertThat(contact, is("https://sunyniagara.edu/sbdc"));
     }
 
     @Test
@@ -285,7 +285,7 @@ public class ParseContactsPageSemiRealTest {
     public void testBigCitiesHealth() throws IOException {
         String page = readString(Paths.get("src/test/resources/bigcitieshealth.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://bigcitieshealth.org");
-        assertThat(contact, is("https://www.bigcitieshealth.org/contact-us/"));
+        assertThat(contact, is("https://www.bigcitieshealth.org/contact-us"));
     }
 
     @Test
@@ -306,7 +306,7 @@ public class ParseContactsPageSemiRealTest {
     public void testBrockwayCat() throws IOException {
         String page = readString(Paths.get("src/test/resources/brockwaycat.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://brockwaycat.org");
-        assertThat(contact, is("https://brockwaycatart.org/contact-us/"));
+        assertThat(contact, is("https://brockwaycatart.org/contact-us"));
     }
 
     @Test
