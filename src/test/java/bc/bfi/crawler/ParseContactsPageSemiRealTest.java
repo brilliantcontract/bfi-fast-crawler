@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 public class ParseContactsPageSemiRealTest {
 
@@ -88,6 +89,39 @@ public class ParseContactsPageSemiRealTest {
     public void testAgforestry() throws IOException {
         String page = Files.readString(Paths.get("src/test/resources/agforestry.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://agforestry.org");
+
+    @Test
+    public void testBayoaksmiami() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bayoaksmiami.com-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bayoaksmiami.com");
+        assertThat(contact, is("https://bayoaksmiami.com/contact/"));
+    }
+
+    @Test
+    public void testBctgm() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bctgm.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bctgm.org");
+        assertThat(contact, is("https://www.instagram.com/bctgm/"));
+    }
+
+    @Test
+    public void testBethanyBeachFire() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bethanybeachfire.com-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bethanybeachfire.com");
+        assertThat(contact, is("https://bethanybeachfire.com/contact-us/"));
+    }
+
+    @Test
+    public void testBetterLife() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/better-life-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://better-life.org");
+        assertThat(contact, is("https://better-life.org/contact/"));
+    }
+
+    @Test
+    public void testBigCatRescue() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bigcatrescue.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bigcatrescue.org");
         assertThat(contact, is(""));
     }
 
@@ -166,5 +200,96 @@ public class ParseContactsPageSemiRealTest {
         String page = Files.readString(Paths.get("src/test/resources/azwater.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://azwater.org");
         assertThat(contact, is(""));
+    }
+
+    @Test
+    public void testBigCitiesHealth() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bigcitieshealth.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bigcitieshealth.org");
+        assertThat(contact, is("https://www.bigcitieshealth.org/contact-us/"));
+    }
+
+    @Test
+    public void testBigStuffHealthShare() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bigstuffhealthshare.com-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bigstuffhealthshare.com");
+        assertThat(contact, is("https://www.bigstuffhealthshare.com/contact"));
+    }
+
+    @Test
+    public void testBridgeBostoncs() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bridgebostoncs.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bridgebostoncs.org");
+        assertThat(contact, is("https://www.bridgebostoncs.org/contact-us"));
+    }
+
+    @Test
+    public void testBrockwayCat() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/brockwaycat.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://brockwaycat.org");
+        assertThat(contact, is("https://brockwaycatart.org/contact-us/"));
+    
+    @Test
+    public void testBrothersOfMercy() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/brothersofmercy.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://brothersofmercy.org");
+        assertThat(contact, is("https://brothersofmercy.org/contact-us"));
+    }
+
+    @Test
+    public void testBullochAdc() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bullochadc.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bullochadc.org");
+        assertThat(contact, is("https://bullochadc.org/contact"));
+    }
+
+    @Test
+    public void testBvuVolunteers() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/bvuvolunteers.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://bvuvolunteers.org");
+        assertThat(contact, is("https://bvuvolunteers.org/contact-us"));
+    }
+
+    @Test
+    public void testCampStCharles() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/campstcharles.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://campstcharles.org");
+        assertThat(contact, is("https://campstcharles.orgrequest-info.php"));
+    }
+
+    @Test
+    public void testCandleClubWichita() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/candleclubwichita.com-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://candleclubwichita.com");
+        assertThat(contact, is("https://candleclubwichita.comcontact"));
+    }
+
+    @Test
+    public void testCaoSciotoCounty() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/caosciotocounty.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://caosciotocounty.org");
+        assertThat(contact, is("https://www.caosciotocounty.org/contact-us"));
+    }
+
+    @Test
+    public void testCaringAndSharingSchool() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/caringandsharingschool.com-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://caringandsharingschool.com");
+        assertThat(contact, is("https://www.caringandsharingschool.com/contact"));
+    }
+
+    @Test
+    @Ignore("Cannot download remote home page")
+    public void testCaritasOfBirmingham() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/caritasofbirmingham.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "http://caritasofbirmingham.org");
+        assertThat(contact, is(""));
+    }
+
+    @Test
+    public void testCasProviders() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/casproviders.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://casproviders.org");
+        assertThat(contact, is("https://casproviders.org/contact-us"));
     }
 }
