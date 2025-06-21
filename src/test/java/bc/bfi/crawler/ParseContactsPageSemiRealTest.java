@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
+import org.junit.Ignore;
 public class ParseContactsPageSemiRealTest {
 
     private final Parser parser = new Parser();
@@ -75,5 +76,75 @@ public class ParseContactsPageSemiRealTest {
         String page = Files.readString(Paths.get("src/test/resources/afscmefl.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://afscmefl.org");
         assertThat(contact, is("https://afscmefl.org/contact-us"));
+    }
+    @Test
+    public void testCedf() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/cedf.com-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://cedf.com");
+        assertThat(contact, is("https://www.cedf.com/inquiry"));
+    }
+
+    @Test
+    public void testCastleHillsSchool() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/castlehills.school-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://castlehills.school");
+        assertThat(contact, is("https://chfbc.client.renweb.com/oa/inquiry.cfm?memberid=362"));
+    }
+
+    @Test
+    public void testCfchildren() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/cfchildren.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://cfchildren.org");
+        assertThat(contact, is(""));
+    }
+
+    @Test
+    public void testGsvymca() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/gsvymca.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://gsvymca.org");
+        assertThat(contact, is("https://gsvymca.org/contact-information"));
+    }
+
+    @Test
+    public void testCincfoundation() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/cincfoundation.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://cincfoundation.org");
+        assertThat(contact, is("https://www.cincfoundation.org"));
+    }
+
+    @Test
+    public void testLcf() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/lcf.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://lcf.org");
+        assertThat(contact, is("https://lcf.org/contact"));
+    }
+
+    @Test
+    public void testMcarthurlibrary() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/mcarthurlibrary.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://mcarthurlibrary.org");
+        assertThat(contact, is("https://www.mcarthurlibrary.org/directory.html"));
+    }
+
+    @Test
+    public void testCasadelafamilia() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/casadelafamilia.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://casadelafamilia.org");
+        assertThat(contact, is("https://casadelafamilia.org/contact-us"));
+    }
+
+    @Test
+    public void testMtpca() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/mtpca.org-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://mtpca.org");
+        assertThat(contact, is("https://www.mtbscc.org"));
+    }
+
+    @Ignore("Cannot download remote home page")
+    @Test
+    public void testNiagaracc() throws IOException {
+        String page = Files.readString(Paths.get("src/test/resources/niagaracc.suny.edu-home.html"), StandardCharsets.UTF_8);
+        String contact = parser.extractContactPageUrl(page, "https://niagaracc.suny.edu");
+        assertThat(contact, is("https://sunyniagara.edu/sbdc/"));
     }
 }
