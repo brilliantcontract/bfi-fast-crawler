@@ -24,9 +24,9 @@ public class SocialLinksParserAdditionalTest {
         String links = parser.extractSocialLinks(html);
         String[] arr = links.split("◙");
         assertThat(arr.length, is(4));
-        assertThat(links, containsString("https://facebook.com/example"));
-        assertThat(links, containsString("https://reddit.com/user/u1"));
-        assertThat(links, containsString("https://snapchat.com/add/testuser"));
+        assertThat(links, containsString("https://www.facebook.com/example"));
+        assertThat(links, containsString("https://www.reddit.com/user/u1"));
+        assertThat(links, containsString("https://www.snapchat.com/add/testuser"));
         assertThat(links, containsString("https://www.threads.net/@user"));
     }
 }

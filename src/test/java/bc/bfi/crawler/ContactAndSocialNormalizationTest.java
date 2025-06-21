@@ -24,6 +24,6 @@ public class ContactAndSocialNormalizationTest {
                 + "<a href='https://facebook.com/example/'>FB</a>"
                 + "</body></html>";
         String links = parser.extractSocialLinks(html);
-        assertThat(links, is("https://facebook.com/example"));
+        assertThat(links, is("https://www.facebook.com/example"));
     }
 }
