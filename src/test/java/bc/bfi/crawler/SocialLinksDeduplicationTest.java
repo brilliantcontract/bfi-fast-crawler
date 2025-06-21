@@ -33,7 +33,8 @@ public class SocialLinksDeduplicationTest {
         String links = parser.extractSocialLinks(html);
         String[] parts = links.split("◙");
         assertThat(parts.length, is(2));
-        assertThat(parts[0], is("https://www.facebook.com/example"));
+        // facebook links are normalized without "www" prefix
+        assertThat(parts[0], is("https://facebook.com/example"));
         assertThat(parts[1], is("https://www.twitter.com/user"));
     }
 }
