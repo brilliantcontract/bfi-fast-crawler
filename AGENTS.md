@@ -1,3 +1,5 @@
+Used programming language is Java 8
+
 Install required software for project:
 apt-get update >/tmp/apt.log && tail -n 20 /tmp/apt.log
 apt-get install -y maven >/tmp/apt.log && tail -n 20 /tmp/apt.log
