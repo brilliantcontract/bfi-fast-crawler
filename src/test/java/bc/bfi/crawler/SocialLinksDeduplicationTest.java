@@ -20,4 +20,20 @@ public class SocialLinksDeduplicationTest {
         String links = parser.extractSocialLinks(html);
         assertThat(links.split("◙").length, is(2));
     }
+
+    @Test
+    public void testLinksNormalizedWithWww() {
+        String html = "<html><body>"
+                + "<a href='https://facebook.com/example'>FB1</a>"
+                + "<a href='https://www.facebook.com/example'>FB2</a>"
+                + "<a href='http://twitter.com/user'>TW1</a>"
+                + "<a href='https://www.twitter.com/user'>TW2</a>"
+                + "</body></html>";
+
+        String links = parser.extractSocialLinks(html);
+        String[] parts = links.split("◙");
+        assertThat(parts.length, is(2));
+        assertThat(parts[0], is("https://www.facebook.com/example"));
+        assertThat(parts[1], is("https://www.twitter.com/user"));
+    }
 }

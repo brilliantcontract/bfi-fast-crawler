@@ -71,6 +71,37 @@ class Parser {
                 return "";
             }
             url = url.trim();
+            if (!url.toLowerCase().startsWith("http")) {
+                url = "https://" + url;
+            }
+            try {
+                URL parsed = new URL(url);
+                String host = parsed.getHost();
+                if (!host.startsWith("www.")) {
+                    host = "www." + host;
+                }
+                String path = parsed.getPath();
+                String query = parsed.getQuery();
+                String fragment = parsed.getRef();
+                StringBuilder sb = new StringBuilder();
+                sb.append("https://").append(host);
+                if (path != null && !path.isEmpty()) {
+                    sb.append(path);
+                }
+                if (query != null && !query.isEmpty()) {
+                    sb.append('?').append(query);
+                }
+                if (fragment != null && !fragment.isEmpty()) {
+                    sb.append('#').append(fragment);
+                }
+                url = sb.toString();
+            } catch (MalformedURLException ex) {
+                url = url.replaceFirst("^http://", "https://");
+                if (!url.startsWith("https://www.")) {
+                    url = url.replaceFirst("^https://(www\\.)?", "https://www.");
+                }
+            }
+
             if (url.endsWith("/")) {
                 url = url.substring(0, url.length() - 1);
             }
