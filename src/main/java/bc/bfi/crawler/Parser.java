@@ -101,6 +101,9 @@ class Parser {
 
             removeShortestPhoneNumbers(phoneNumbers);
 
+            // Remove duplicate numbers while keeping the original order
+            phoneNumbers = new ArrayList<>(new LinkedHashSet<>(phoneNumbers));
+
             return phoneNumbers.stream().collect(Collectors.joining("◙"));
         }
 
