@@ -39,9 +39,12 @@ class Parser {
             map.put("TIKTOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}tiktok\\.com[^\"']{2,80})");
             map.put("YOUTUBE", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}youtube\\.com[^\"']{2,80})");
             map.put("INSTAGRAM", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}instagram\\.com[^\"']{2,80})");
-            map.put("TWITTER", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}twitter\\.com(?!/share)[^\"']{2,80})");
+            map.put("TWITTER", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:twitter\\.com|x\\.com)(?!/share)[^\"']{2,80})");
             map.put("LINKEDIN", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}linkedin\\.com(?!/shareArticle\\?|/cws/share)[^\"']{2,80})");
             map.put("PINTEREST", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}pinterest\\.com[^\"']{2,150})");
+            map.put("SOUNDCLOUD", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}soundcloud\\.com[^\"']{2,80})");
+            map.put("VIMEO", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}vimeo\\.com[^\"']{2,80})");
+            map.put("THREADS", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}threads\\.net[^\"']{2,80})");
 
             this.socialPatterns = Collections.unmodifiableMap(map);
         }
