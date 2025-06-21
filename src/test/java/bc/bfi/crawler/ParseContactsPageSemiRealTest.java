@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import org.junit.Test;
 import org.junit.Ignore;
 
-import org.junit.Ignore;
 public class ParseContactsPageSemiRealTest {
 
     private final Parser parser = new Parser();
@@ -97,6 +96,7 @@ public class ParseContactsPageSemiRealTest {
     public void testCfchildren() throws IOException {
         String page = Files.readString(Paths.get("src/test/resources/cfchildren.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://cfchildren.org");
+        assertThat(contact, is(""));
     }
 
     @Test
@@ -110,6 +110,8 @@ public class ParseContactsPageSemiRealTest {
     public void testAgforestry() throws IOException {
         String page = Files.readString(Paths.get("src/test/resources/agforestry.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://agforestry.org");
+        assertThat(contact, is(""));
+    }
 
     @Test
     public void testBayoaksmiami() throws IOException {
@@ -194,6 +196,7 @@ public class ParseContactsPageSemiRealTest {
         String page = Files.readString(Paths.get("src/test/resources/niagaracc.suny.edu-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://niagaracc.suny.edu");
         assertThat(contact, is("https://sunyniagara.edu/sbdc/"));
+    }
 
     @Test
     public void testAhfincNet() throws IOException {
@@ -298,7 +301,8 @@ public class ParseContactsPageSemiRealTest {
         String page = Files.readString(Paths.get("src/test/resources/brockwaycat.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://brockwaycat.org");
         assertThat(contact, is("https://brockwaycatart.org/contact-us/"));
-    
+    }
+
     @Test
     public void testBrothersOfMercy() throws IOException {
         String page = Files.readString(Paths.get("src/test/resources/brothersofmercy.org-home.html"), StandardCharsets.UTF_8);
