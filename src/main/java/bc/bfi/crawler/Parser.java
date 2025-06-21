@@ -119,19 +119,44 @@ class Parser {
                 url = "https://" + url;
             }
 
+            try {
+                URL parsed = new URL(url);
+                String host = parsed.getHost();
+                String path = parsed.getPath();
+                String query = parsed.getQuery();
+                String fragment = parsed.getRef();
+                StringBuilder sb = new StringBuilder();
+                sb.append("https://").append(host);
+                if (path != null && !path.isEmpty()) {
+                    sb.append(path);
+                }
+                if (query != null && !query.isEmpty()) {
+                    sb.append('?').append(query);
+                }
+                if (fragment != null && !fragment.isEmpty()) {
+                    sb.append('#').append(fragment);
+                }
+                url = sb.toString();
+            } catch (MalformedURLException ex) {
+                url = url.replaceFirst("^http://", "https://");
+            }
+
             // Remove trailing slash if present
             if (url.endsWith("/")) {
                 url = url.substring(0, url.length() - 1);
             }
 
+            // Drop leading www. for most networks except Threads
+            url = url.replaceFirst("(?i)://www\\.(?!threads\\.net)", "://");
+
             // Normalize alternative Facebook and Reddit domains
-            url = url.replaceFirst("(?i)://(?:www\\.)?fb\\.com", "://facebook.com");
-            url = url.replaceFirst("(?i)://(?:www\\.)?fb\\.me", "://facebook.com");
-            url = url.replaceFirst("(?i)://m\\.facebook\\.com", "://facebook.com");
-            url = url.replaceFirst("(?i)://(?:www\\.)?redd\\.it", "://reddit.com");
-            url = url.replaceFirst("(?i)://(?:old\\.|www\\.)?reddit\\.com", "://reddit.com");
-            url = url.replaceFirst("(?i)://reddit.com/u/([^/?#]+)", "://reddit.com/user/$1");
-            url = url.replaceFirst("(?i)://reddit.com/([^/?#]+)$", "://reddit.com/user/$1");
+            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)*fb\\.com", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.)*fb\\.me", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)*facebook\\.com", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.)*redd\\.it", "://reddit.com");
+            url = url.replaceFirst("(?i)://(?:old\\.|www\\.)*reddit\\.com", "://reddit.com");
+            url = url.replaceFirst("(?i)://(?:www\\.)?reddit\\.com/u/([^/?#]+)", "://reddit.com/user/$1");
+            url = url.replaceFirst("(?i)://(?:www\\.)?reddit\\.com/([^/?#]+)$", "://reddit.com/user/$1");
 
             return url;
         }
