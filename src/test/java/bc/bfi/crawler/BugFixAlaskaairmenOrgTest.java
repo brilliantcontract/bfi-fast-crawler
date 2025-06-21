@@ -22,7 +22,7 @@ public class BugFixAlaskaairmenOrgTest {
         
         assertThat(emails, containsString("info@alaskaairmen.org"));
         assertThat(emails, containsString("20info@alaskaairmen.org"));
-        assertThat(emails.split("◙").length, is(1));
+        assertThat(emails.split("◙").length, is(2));
     }
 
 }
