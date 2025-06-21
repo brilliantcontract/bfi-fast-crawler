@@ -47,7 +47,7 @@ class Parser {
         }
 
         String extractSocialLinks(String html) {
-            List<String> allLinks = new ArrayList<>();
+            Set<String> allLinks = new LinkedHashSet<>();
             for (String patternStr : socialPatterns.values()) {
                 Pattern pattern = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(html);
