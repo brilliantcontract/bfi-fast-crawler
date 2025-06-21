@@ -35,13 +35,15 @@ class Parser {
 
         private SocialLinksParser() {
             Map<String, String> map = new HashMap<>();
-            map.put("FACEBOOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}facebook\\.com(?!/shares/|/sharer/|/sharer\\.php|/share\\.php|/l\\.php\\?u=|/rsrc\\.php/)[^\"']{2,80})");
+            map.put("FACEBOOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:facebook\\.com|fb\\.com|fb\\.me)(?!/shares/|/sharer/|/sharer\\.php|/share\\.php|/l\\.php\\?u=|/rsrc\\.php/)[^\"']{2,80})");
             map.put("TIKTOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}tiktok\\.com[^\"']{2,80})");
             map.put("YOUTUBE", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}youtube\\.com[^\"']{2,80})");
             map.put("INSTAGRAM", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}instagram\\.com[^\"']{2,80})");
             map.put("TWITTER", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:twitter\\.com|x\\.com)(?!/share)[^\"']{2,80})");
             map.put("LINKEDIN", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}linkedin\\.com(?!/shareArticle\\?|/cws/share)[^\"']{2,80})");
             map.put("PINTEREST", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}pinterest\\.com[^\"']{2,150})");
+            map.put("REDDIT", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:reddit\\.com|redd\\.it)[^\"']{2,80})");
+            map.put("SNAPCHAT", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}snapchat\\.com[^\"']{2,80})");
             map.put("SOUNDCLOUD", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}soundcloud\\.com[^\"']{2,80})");
             map.put("VIMEO", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}vimeo\\.com[^\"']{2,80})");
             map.put("THREADS", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}threads\\.net[^\"']{2,80})");
@@ -105,6 +107,16 @@ class Parser {
             if (url.endsWith("/")) {
                 url = url.substring(0, url.length() - 1);
             }
+
+            // Normalize alternative Facebook and Reddit domains
+            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)?fb\\.com", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.)?fb\\.me", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)?facebook\\.com", "://facebook.com");
+            url = url.replaceFirst("(?i)://(?:www\\.)?redd\\.it", "://reddit.com");
+            url = url.replaceFirst("(?i)://(?:old\\.|www\\.)?reddit\\.com", "://reddit.com");
+            url = url.replaceFirst("(?i)://reddit.com/u/([^/?#]+)", "://reddit.com/user/$1");
+            url = url.replaceFirst("(?i)://reddit.com/([^/?#]+)$", "://reddit.com/user/$1");
+
             return url;
         }
     }
@@ -162,16 +174,26 @@ class Parser {
         }
 
         String extractEmails(String pageContent) {
-            // Use a set to automatically remove duplicates while preserving
-            // the order of discovery so test expectations remain stable.
-            Set<String> emails = new LinkedHashSet<>();
+            if (pageContent == null) {
+                return "";
+            }
+
+            // Normalize common malformed mailto links but keep the original
+            pageContent = pageContent.replace("mailto:%20", "mailto:");
+
+            // Deduplicate emails while comparing by a canonical form that
+            // strips leading "20" which often appears from encoded spaces in
+            // mailto links.
+            Map<String, String> canonicalToOriginal = new LinkedHashMap<>();
             Matcher matcher = pattern.matcher(pageContent);
             while (matcher.find()) {
                 String email = matcher.group("value");
-                emails.add(email);
+                String canonical = email.replaceFirst("^20(?=[A-Za-z0-9])", "");
+                canonicalToOriginal.put(canonical.toLowerCase(Locale.ENGLISH), email);
             }
 
-            return emails.stream().collect(Collectors.joining("◙"));
+            return canonicalToOriginal.values().stream()
+                    .collect(Collectors.joining("◙"));
         }
     }
 
