@@ -39,11 +39,13 @@ class Parser {
             map.put("TIKTOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}tiktok\\.com[^\"']{2,80})");
             map.put("YOUTUBE", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}youtube\\.com[^\"']{2,80})");
             map.put("INSTAGRAM", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}instagram\\.com[^\"']{2,80})");
-            map.put("TWITTER", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}twitter\\.com(?!/share)[^\"']{2,80})");
+            map.put("TWITTER", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:twitter\\.com|x\\.com)(?!/share)[^\"']{2,80})");
             map.put("LINKEDIN", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}linkedin\\.com(?!/shareArticle\\?|/cws/share)[^\"']{2,80})");
             map.put("PINTEREST", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}pinterest\\.com[^\"']{2,150})");
             map.put("REDDIT", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:reddit\\.com|redd\\.it)[^\"']{2,80})");
             map.put("SNAPCHAT", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}snapchat\\.com[^\"']{2,80})");
+            map.put("SOUNDCLOUD", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}soundcloud\\.com[^\"']{2,80})");
+            map.put("VIMEO", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}vimeo\\.com[^\"']{2,80})");
             map.put("THREADS", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}threads\\.net[^\"']{2,80})");
 
             this.socialPatterns = Collections.unmodifiableMap(map);
@@ -71,6 +73,37 @@ class Parser {
                 return "";
             }
             url = url.trim();
+            if (!url.toLowerCase().startsWith("http")) {
+                url = "https://" + url;
+            }
+            try {
+                URL parsed = new URL(url);
+                String host = parsed.getHost();
+                if (!host.startsWith("www.")) {
+                    host = "www." + host;
+                }
+                String path = parsed.getPath();
+                String query = parsed.getQuery();
+                String fragment = parsed.getRef();
+                StringBuilder sb = new StringBuilder();
+                sb.append("https://").append(host);
+                if (path != null && !path.isEmpty()) {
+                    sb.append(path);
+                }
+                if (query != null && !query.isEmpty()) {
+                    sb.append('?').append(query);
+                }
+                if (fragment != null && !fragment.isEmpty()) {
+                    sb.append('#').append(fragment);
+                }
+                url = sb.toString();
+            } catch (MalformedURLException ex) {
+                url = url.replaceFirst("^http://", "https://");
+                if (!url.startsWith("https://www.")) {
+                    url = url.replaceFirst("^https://(www\\.)?", "https://www.");
+                }
+            }
+
             if (url.endsWith("/")) {
                 url = url.substring(0, url.length() - 1);
             }
@@ -215,7 +248,7 @@ class Parser {
 
             String contactPageUrl = candidateLinks.get(0);
             contactPageUrl = appendHostname(contactPageUrl, url);
-            return contactPageUrl;
+            return normalizeContactUrl(contactPageUrl);
         }
 
         private String appendHostname(String contactPageUrl, String url) {
@@ -223,6 +256,18 @@ class Parser {
                 contactPageUrl = Utils.extractBaseUrl(url) + contactPageUrl;
             }
 
+            return contactPageUrl;
+        }
+
+        private String normalizeContactUrl(String contactPageUrl) {
+            if (contactPageUrl == null) {
+                return "";
+            }
+
+            contactPageUrl = contactPageUrl.trim();
+            if (contactPageUrl.endsWith("/")) {
+                contactPageUrl = contactPageUrl.substring(0, contactPageUrl.length() - 1);
+            }
             return contactPageUrl;
         }
 
