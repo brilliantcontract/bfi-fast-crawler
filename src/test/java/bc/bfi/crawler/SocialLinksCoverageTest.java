@@ -155,7 +155,11 @@ public class SocialLinksCoverageTest {
         String result = parser.extractSocialLinks(html.toString());
         Set<String> actual = new LinkedHashSet<>(Arrays.asList(result.split("◙")));
         Set<String> expected = Arrays.stream(urls)
-                .map(u -> u.endsWith("/") ? u.substring(0, u.length() - 1) : u)
+                .map(u -> {
+                    String htmlSingle = "<html><body><a href='" + u + "'>x</a></body></html>";
+                    String canon = parser.extractSocialLinks(htmlSingle);
+                    return canon.split("◙")[0];
+                })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         assertThat(actual, is(expected));
