@@ -93,12 +93,16 @@ class Parser {
                 }
             }
             // Prefer https and www for twitter/x
-            if ((a.contains("twitter.com") || a.contains("x.com")) &&
-                (b.contains("twitter.com") || b.contains("x.com"))) {
+            if ((a.contains("twitter.com") || a.contains("x.com"))
+                    && (b.contains("twitter.com") || b.contains("x.com"))) {
                 String aw = a.replaceFirst("^http://", "https://");
-                if (!aw.contains("www.")) aw = aw.replaceFirst("://", "://www.");
+                if (!aw.contains("www.")) {
+                    aw = aw.replaceFirst("://", "://www.");
+                }
                 String bw = b.replaceFirst("^http://", "https://");
-                if (!bw.contains("www.")) bw = bw.replaceFirst("://", "://www.");
+                if (!bw.contains("www.")) {
+                    bw = bw.replaceFirst("://", "://www.");
+                }
                 return aw.compareTo(bw) <= 0 ? aw : bw;
             }
             // Otherwise keep the first
@@ -230,7 +234,11 @@ class Parser {
             while (matcher.find()) {
                 String email = matcher.group("value");
                 String canonical = email.replaceFirst("^20(?=[A-Za-z0-9])", "");
-                canonicalToOriginal.put(canonical.toLowerCase(Locale.ENGLISH), email);
+                String lower = canonical.toLowerCase(Locale.ENGLISH);
+                if (lower.matches(".*@[0-9]+x\\.(png|jpe?g|gif|bmp|svg|webp)$")) {
+                    continue;
+                }
+                canonicalToOriginal.put(lower, email);
             }
 
             return canonicalToOriginal.values().stream()
