@@ -205,8 +205,11 @@ class Parser {
             if (phoneNumbers.size() <= 1) {
                 return;
             }
-
             int minLen = phoneNumbers.stream().mapToInt(String::length).min().orElse(0);
+            int maxLen = phoneNumbers.stream().mapToInt(String::length).max().orElse(0);
+            if (minLen == maxLen) {
+                return;
+            }
             phoneNumbers.removeIf(p -> p.length() == minLen);
         }
     }
