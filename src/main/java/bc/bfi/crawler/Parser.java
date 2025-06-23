@@ -367,9 +367,9 @@ class Parser {
             }
 
             contactPageUrl = contactPageUrl.trim();
-            if (contactPageUrl.endsWith("/")) {
-                contactPageUrl = contactPageUrl.substring(0, contactPageUrl.length() - 1);
-            }
+            // Remove a trailing slash both at the end of the URL and
+            // directly before a query or fragment part.
+            contactPageUrl = contactPageUrl.replaceFirst("/(?=[?#]|$)", "");
             return contactPageUrl;
         }
 
