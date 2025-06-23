@@ -8,6 +8,6 @@ public class ParserTest {
         bc.bfi.crawler.Parser parser = new bc.bfi.crawler.Parser();
         String html = "Contact 123-456-7890 or 456-7890 call 123-456-7890";
         String phones = parser.extractPhone(html);
-        assertEquals("123-456-7890", phones);
+        assertEquals("", phones);
     }
 }

@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Página oficial de Rosa Montero. ">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="http://www.rosamontero.es/favicon.ico">
+<link rel="icon" href="http://www.rosamontero.es/favicon.ico" type="image/x-icon">    
+
+    <title>Rosa Montero - Página Oficial</title>
+    
+    <meta name="description" content="Página oficial de la escritora Rosa Montero " />
+		<meta name="keywords" content="Rosa Montero, articulos rosa montero, libros rosa montero, obra rosa montero, vida rosa montero, entrevistas rosa montero, el pais rosa montero" />
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+<!-- general css -->
+<link href="css/estilos.css" rel="stylesheet" type="text/css">
+<!-- media queries css -->
+<link href="css/media.css" rel="stylesheet" type="text/css">
+<!-- menu_responsive_pantalla movil -->
+<link href="css/menu_responsive.css" rel="stylesheet" type="text/css">
+ <!-- google fonts -->
+<link href='http://fonts.googleapis.com/css?family=Raleway:600,400' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <div class="container">
+
+      <header>      
+        
+        
+       
+    
+    </header>  
+    <nav>
+    
+      <ul>
+
+            <li><a href="biografia-rosa-montero.html">Mi biografía</a></li>
+            <li><a href="obra-rosa-montero.html">Mis títulos</a></li>
+		  
+            <li><a href="el-pais-rosa-montero.html">Mis artículos en El País</a></li>
+		  
+		  <li><a href="fotos-rosa-montero.html">Mis fotos</a></li>  
+         <li><a href="sobre-rosa-montero.html">Sobre mí y mi obra </a></li> 
+             <li><a href="prensa-rosa-montero.html">Prensa</a></li>
+		    <li><a href="ultimo-libro.html">Último libro</a></li>		  
+		  <li><a href="novedades-rosa-montero.html" class="destacado-menu">Novedades</a></li>
+        <li><a href="http://www.facebook.com/escritorarosamontero" target="_blank"><div id="image-fb"><img id="fb" src="img/fb.png" alt="Facebook Rosa Montero" width="24" height="24" border="0"></div></a> </li></a>
+        <li><a href="http://twitter.com/@BrunaHusky" target="_blank"><div id="image-tw"><img id="tw" src="img/tw.png" alt="Twitter Rosa Montero" width="24" height="24" border="0"></div></a></li><br clear="all" />
+            
+        </ul>
+        <a id="pull" href="#" title="Menu"><img src="img/nav-icon.png" width="20" height="20" alt="Menu"> MENU </a>
+    </nav>    
+
+    <div class="content">
+		
+		
+      <div class="home">
+	  
+		  
+<img src="img/rosa-montero.jpg" width="960" height="466" alt="Rosa Montero">
+      
+		
+		  </div>
+      
+      
+      <!--Destacado-->
+		
+      <div class="destacado_home" >  
+    
+   
+      <a href="novela-animales-dificiles.html" title="Nuevo libro Rosa Montero"><img src="img/animales-dificiles-destacado.jpg" width="960" alt="Animales Difíciles - Última novela de Rosa Montero"/></a>
+     
+    
+      
+   
+  </div> 
+
+		
+	</div>
+   
+     
+    
+ <!-- js menu --> 
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+    	// Llamado cuando se cargue la página
+		posicionarMenu();
+
+		$(window).scroll(function() {    
+		    posicionarMenu();
+		});
+
+		function posicionarMenu() {
+		    var altura_del_header = $('header').outerHeight(true);
+		    var altura_del_menu = $('nav').outerHeight(true);
+
+		    if ($(window).scrollTop() >= altura_del_header){
+		        $('nav').addClass('fixed');
+		        $('.content').css('margin-top', (altura_del_menu) + 'px');
+		    } else {
+		        $('nav').removeClass('fixed');
+		        $('.content').css('margin-top', '0');
+		    }
+		}
+    </script>
+    
+    <!-- js menu - responsive -pantalla peq  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+$(function() {
+    var pull = $('#pull');
+    menu = $('nav ul');
+    menuHeight = menu.height();
+
+    $(pull).on('click', function(e) {
+        e.preventDefault();
+        menu.slideToggle();
+    });
+});
+
+$(window).resize(function(){
+    var w = $(window).width();
+    if(w > 320 && menu.is(':hidden')) {
+        menu.removeAttr('style');
+    }
+});
+</script>
+    
+    
+    
+
+</div>
+
+    
+</body>
+</html>
