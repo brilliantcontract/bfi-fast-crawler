@@ -35,7 +35,7 @@ class Parser {
 
         private SocialLinksParser() {
             Map<String, String> map = new HashMap<>();
-            map.put("FACEBOOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}(?:facebook\\.com|fb\\.com|fb\\.me)(?!/shares/|/sharer/|/sharer\\.php|/share\\.php|/l\\.php\\?u=|/rsrc\\.php/)[^\"']{2,80})");
+            map.put("FACEBOOK", "href=['\"]?(?<value>https?[\\w\\.:/-]{3,40}(?:facebook\\.com|fb\\.com|fb\\.me)(?!/shares/|/sharer/|/sharer\\.php|/share\\.php|/l\\.php\\?u=|/rsrc\\.php/)[^\"']{1,80})");
             map.put("TIKTOK", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}tiktok\\.com[^\"']{2,80})");
             map.put("YOUTUBE", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}youtube\\.com[^\"']{2,80})");
             map.put("INSTAGRAM", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}instagram\\.com[^\"']{2,80})");
@@ -47,6 +47,10 @@ class Parser {
             map.put("SOUNDCLOUD", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}soundcloud\\.com[^\"']{2,80})");
             map.put("VIMEO", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}vimeo\\.com[^\"']{2,80})");
             map.put("THREADS", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}threads\\.net[^\"']{2,80})");
+            map.put("BOOKBUB", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}bookbub\\.com[^\"']{2,80})");
+            map.put("GOODREADS", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}goodreads\\.com[^\"']{2,80})");
+            map.put("MASTODON", "href=['\"]?(?<value>https?[\\w\\.:/]{3,11}[\\w.-]*mastodon\\.[^\"']{2,80})");
+            map.put("TUMBLR", "href=['\"]?(?<value>https?[\\w\\.:/-]{3,40}[\\w.-]*tumblr\\.com[^\"']{0,80})");
 
             this.socialPatterns = Collections.unmodifiableMap(map);
         }
@@ -59,6 +63,9 @@ class Parser {
                 while (matcher.find()) {
                     String url = matcher.group("value");
                     String normalized = unifyUrlOfSocialNetwork(url);
+                    if (!isProfileUrl(normalized)) {
+                        continue;
+                    }
                     String key = buildCanonicalKey(normalized);
                     String existing = canonical.get(key);
                     if (existing == null) {
@@ -109,6 +116,34 @@ class Parser {
             return a;
         }
 
+        private boolean isProfileUrl(String url) {
+            String lower = url.toLowerCase(Locale.ENGLISH);
+            if (lower.contains("facebook.com")) {
+                if (lower.matches("https?://www\\.facebook\\.com/(?:groups|events)/.*")) {
+                    return false;
+                }
+            }
+            if (lower.contains("twitter.com") || lower.contains("x.com")) {
+                if (lower.matches("https?://www\\.(?:twitter\\.com|x\\.com)/[^/]+/status/.*")) {
+                    return false;
+                }
+                if (lower.matches("https?://www\\.(?:twitter\\.com|x\\.com)/(?:share|intent|search|home)/.*")) {
+                    return false;
+                }
+            }
+            if (lower.contains("instagram.com")) {
+                if (lower.matches("https?://www\\.instagram\\.com/(?:p|reel|tv)/.*")) {
+                    return false;
+                }
+            }
+            if (lower.contains("pinterest.com")) {
+                if (lower.matches("https?://www\\.pinterest\\.com/(?:pin|explore|search)/.*")) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /**
          * Basic normalization: trim, remove trailing slashes, lowercase
          * scheme/domain if needed. Can be expanded for specific networks.
@@ -119,6 +154,13 @@ class Parser {
             }
 
             url = url.trim();
+            if (url.matches("(?i)https?://(?:www\\.)?(?:twitter\\.com|x\\.com)/#!/.*")) {
+                url = url.replace("#!/", "/");
+            }
+            if (url.matches("(?i)https?://(?:www\\.)?(?:twitter\\.com|x\\.com)/@.*")) {
+                url = url.replaceFirst("/@", "/");
+            }
+            url = url.replaceFirst("(?i)://((?:www\\.)?(?:twitter\\.com|x\\.com))//", "://$1/");
             if (!url.toLowerCase().startsWith("http")) {
                 url = "https://" + url;
             }
@@ -153,13 +195,17 @@ class Parser {
                 url = url.substring(0, url.length() - 1);
             }
 
+            if (url.endsWith("#")) {
+                url = url.substring(0, url.length() - 1);
+            }
+
             // Ensure leading www. for consistency across networks
             url = url.replaceFirst("(?i)://(?!www\\.)", "://www.");
 
             // Normalize alternative Facebook and Reddit domains
-            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)*fb\\.com", "://www.facebook.com");
-            url = url.replaceFirst("(?i)://(?:www\\.)*fb\\.me", "://www.facebook.com");
-            url = url.replaceFirst("(?i)://(?:www\\.|m\\.)*facebook\\.com", "://www.facebook.com");
+            url = url.replaceFirst("(?i)://(?:[\\w.-]*\\.)?fb\\.com", "://www.facebook.com");
+            url = url.replaceFirst("(?i)://(?:[\\w.-]*\\.)?fb\\.me", "://www.facebook.com");
+            url = url.replaceFirst("(?i)://(?:[\\w.-]*\\.)?facebook\\.com", "://www.facebook.com");
             url = url.replaceFirst("(?i)://(?:www\\.)*redd\\.it", "://www.reddit.com");
             url = url.replaceFirst("(?i)://(?:old\\.|www\\.)*reddit\\.com", "://www.reddit.com");
             url = url.replaceFirst("(?i)://(?:www\\.)?reddit\\.com/u/([^/?#]+)", "://www.reddit.com/user/$1");
