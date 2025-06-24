@@ -1,14 +1,8 @@
-Used programming language is Java 8
-
-Install required software for project:
-apt-get update >/tmp/apt.log && tail -n 20 /tmp/apt.log
-apt-get install -y maven >/tmp/apt.log && tail -n 20 /tmp/apt.log
+Project use Java 8. No use of NodeJS or Python.
 
 
 
-When downloading Maven dependencies, especially artifact org.glassfish.jersey:jersey-bom:pom:2.27 artifact you should use proxy, otherwise you will have following network error: 
-[ERROR]     Non-resolvable import POM: Could not transfer artifact org.glassfish.jersey:jersey-bom:pom:2.27 from/to central (https://repo.maven.apache.org/maven2): transfer failed for https://repo.maven.apache.org/maven2/org/glassfish/jersey/jersey-bom/2.27/jersey-bom-2.27.pom @ line 47, column 25: Network is unreachable
-
+### Tests
 
 Rules for testing:
 - All features should have a unit test or tests.
