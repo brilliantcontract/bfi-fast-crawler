@@ -69,7 +69,7 @@ class ContactFormDetector {
     }
 
     private boolean hasSubmitButton(Element form) {
-        return !form.select("input[type=submit], button[type=submit], button:matchesOwn((?i)send|submit), input[value~=(?i)send)").isEmpty();
+        return !form.select("input[type=submit], button[type=submit], button:matchesOwn((?i)send|submit), input[value~=(?i)send]").isEmpty();
     }
 
     private boolean isSearchForm(Element form) {
