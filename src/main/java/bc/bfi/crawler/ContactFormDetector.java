@@ -23,17 +23,9 @@ class ContactFormDetector {
         this.downloader = downloader;
     }
 
-    boolean hasContactForm(String url) {
-        String html = downloader.load(url);
-        if (html == null || html.isEmpty()) {
-            return false;
-        }
-        return hasContactFormFromHtml(html, url);
-    }
-
-    boolean hasContactFormFromHtml(String html, String url) {
+    boolean hasContactFormFromHtml(String html) {
         try {
-            Document doc = Jsoup.parse(html, url);
+            Document doc = Jsoup.parse(html);
             return detect(doc);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Failed to parse html", ex);

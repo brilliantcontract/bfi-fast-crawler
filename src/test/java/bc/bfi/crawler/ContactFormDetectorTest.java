@@ -17,7 +17,7 @@ public class ContactFormDetectorTest {
                 "<input type='submit' value='Send'>" +
                 "</form>";
         ContactFormDetector detector = new ContactFormDetector();
-        assertThat(detector.hasContactFormFromHtml(html, "http://example.com"), is(true));
+        assertThat(detector.hasContactFormFromHtml(html), is(true));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class ContactFormDetectorTest {
                 "<button>search</button>" +
                 "</form>";
         ContactFormDetector detector = new ContactFormDetector();
-        assertThat(detector.hasContactFormFromHtml(html, "http://example.com"), is(false));
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ContactFormDetectorTest {
                 "<input type='submit'>" +
                 "</form>";
         ContactFormDetector detector = new ContactFormDetector();
-        assertThat(detector.hasContactFormFromHtml(html, "http://example.com"), is(false));
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
     }
 
     @Test
@@ -47,16 +47,6 @@ public class ContactFormDetectorTest {
                 "<form action='/send'><input name='name'><input name='email'>" +
                 "<textarea name='message'></textarea><button type='submit'>Send</button></form>";
         ContactFormDetector detector = new ContactFormDetector();
-        assertThat(detector.hasContactFormFromHtml(html, "http://example.com"), is(true));
-    }
-
-    @Test
-    public void testUsesDownloaderWhenUrlProvided() {
-        Downloader dl = mock(Downloader.class);
-        when(dl.load("http://example.com"))
-                .thenReturn("<form><input name='name'><input name='email'><textarea></textarea><input type='submit'></form>");
-        ContactFormDetector detector = new ContactFormDetector(dl);
-        assertThat(detector.hasContactForm("http://example.com"), is(true));
-        verify(dl).load("http://example.com");
+        assertThat(detector.hasContactFormFromHtml(html), is(true));
     }
 }
