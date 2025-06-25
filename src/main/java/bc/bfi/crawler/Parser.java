@@ -309,12 +309,12 @@ class Parser {
 
         private void initializeListsWithWords() {
             contactsPage.addAll(Arrays.asList(
-                    "GET IN TOUCH", "REACH OUT", "CONNECT", "CONTACT US", "CONTACT ME", "CONTACT INFO", "CONTACT SUPPORT",
+                    "GET IN TOUCH", "REACH OUT", "CONNECT", "CONTACT", "CONTACT US", "CONTACT ME", "CONTACT INFO", "CONTACT SUPPORT",
                     "CUSTOMER SUPPORT", "HELP & SUPPORT", "REQUEST INFO", "SUBMIT AN INQUIRY", "INQUIRY", "FEEDBACK",
                     "SEND A MESSAGE", "SAY HELLO", "DROP US A LINE", "LET’S CHAT", "HIT US UP", "TALK TO US",
                     "START A CONVERSATION", "PING US", "MESSAGE US", "HOLLER AT US", "REQUEST A CONSULTATION",
                     "BOOK A CALL", "SCHEDULE A MEETING", "REQUEST SUPPORT", "CLIENT SERVICES", "BUSINESS INQUIRIES",
-                    "CONNECT WITH SALES", "PARTNER WITH US", "WORK WITH US"
+                    "CONNECT WITH SALES", "PARTNER WITH US", "WORK WITH US", "ENVIAR MENSAJE"
             ));
         }
 
@@ -339,7 +339,7 @@ class Parser {
                 }
 
                 // Match by URL pattern
-                if (href.matches(".*(contact|contacts|contact-us|contact_us)[^\\s\"'>]*")) {
+                if (href.matches(".*(contact|contacts|contact-us|contact_us|enviar-mensaje|enviar_mensaje)[^\\s\"'>]*")) {
                     candidateLinks.add(href);
                 }
             }
@@ -355,7 +355,8 @@ class Parser {
 
         private String appendHostname(String contactPageUrl, String url) {
             if (!contactPageUrl.toUpperCase().startsWith("HTTP")) {
-                contactPageUrl = Utils.extractBaseUrl(url) + contactPageUrl;
+                contactPageUrl = Utils.extractBaseUrl(url) + "/" + contactPageUrl;
+                contactPageUrl = contactPageUrl.replaceAll("([a-zA-Z0-9])//", "$1/");
             }
 
             return contactPageUrl;

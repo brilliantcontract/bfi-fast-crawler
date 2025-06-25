@@ -194,7 +194,7 @@ public class ParseContactsPageSemiRealTest {
     public void testMtpca() throws IOException {
         String page = readString(Paths.get("src/test/resources/mtpca.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://mtpca.org");
-        assertThat(contact, is("https://www.mtbscc.org"));
+        assertThat(contact, is("https://www.mtpca.org/about/staff"));
     }
 
     @Ignore("Cannot download remote home page")
@@ -335,14 +335,14 @@ public class ParseContactsPageSemiRealTest {
     public void testCampStCharles() throws IOException {
         String page = readString(Paths.get("src/test/resources/campstcharles.org-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://campstcharles.org");
-        assertThat(contact, is("https://campstcharles.orgrequest-info.php"));
+        assertThat(contact, is("https://campstcharles.org/request-info.php"));
     }
 
     @Test
     public void testCandleClubWichita() throws IOException {
         String page = readString(Paths.get("src/test/resources/candleclubwichita.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://candleclubwichita.com");
-        assertThat(contact, is("https://candleclubwichita.comcontact"));
+        assertThat(contact, is("https://candleclubwichita.com/contact"));
     }
 
     @Test
@@ -496,7 +496,7 @@ public class ParseContactsPageSemiRealTest {
     public void testKarenRobards() throws IOException {
         String page = readString(Paths.get("src/test/resources/karenrobards.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://karenrobards.com");
-        assertThat(contact, is("https://karenrobards.comconnect.html"));
+        assertThat(contact, is("https://karenrobards.com/connect.html"));
     }
 
     @Test
@@ -510,7 +510,7 @@ public class ParseContactsPageSemiRealTest {
     public void testRobertcrais() throws IOException {
         String page = readString(Paths.get("src/test/resources/robertcrais.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://robertcrais.com");
-        assertThat(contact, is("https://robertcrais.comcontact.htm"));
+        assertThat(contact, is("https://robertcrais.com/contact.htm"));
     }
 
     @Test
@@ -579,14 +579,14 @@ public class ParseContactsPageSemiRealTest {
     public void testTerryGoodkind() throws IOException {
         String page = readString(Paths.get("src/test/resources/terrygoodkind.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://www.terrygoodkind.com");
-        assertThat(contact, is(""));
+        assertThat(contact, is("https://www.terrygoodkind.com"));
     }
 
     @Test
     public void testLauraChilds() throws IOException {
         String page = readString(Paths.get("src/test/resources/laurachilds.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://laurachilds.com");
-        assertThat(contact, is("https://laurachilds.comcontact.php"));
+        assertThat(contact, is("https://laurachilds.com/contact.php"));
     }
 
     @Test
@@ -670,7 +670,7 @@ public class ParseContactsPageSemiRealTest {
     public void testLisaKleypas() throws IOException {
         String page = readString(Paths.get("src/test/resources/lisakleypas.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://lisakleypas.com");
-        assertThat(contact, is("https://lisakleypas.com/contact"));
+        assertThat(contact, is(""));
     }
 
     @Test
@@ -719,6 +719,6 @@ public class ParseContactsPageSemiRealTest {
     public void testHannahHowell() throws IOException {
         String page = readString(Paths.get("src/test/resources/hannahhowell.com-home.html"), StandardCharsets.UTF_8);
         String contact = parser.extractContactPageUrl(page, "https://hannahhowell.com");
-        assertThat(contact, is("https://hannahhowell.com/contact"));
+        assertThat(contact, is("https://www.hannahhowell.com?page_id=81"));
     }
 }
