@@ -325,30 +325,40 @@ class Parser {
             );
 
             Matcher matcher = linkPattern.matcher(html);
-            List<String> candidateLinks = new ArrayList<>();
+            String bestCandidate = null;
+            int bestScore = -1;
 
             while (matcher.find()) {
                 String href = matcher.group("href").trim();
                 String text = matcher.group("text").replaceAll("\\s+", " ").toUpperCase(Locale.ENGLISH).trim();
 
-                // Match by link text
+                int score = 0;
                 for (String keyword : contactsPage) {
                     if (text.contains(keyword)) {
-                        candidateLinks.add(href);
+                        score += 3;
+                        break;
                     }
                 }
 
-                // Match by URL pattern
-                if (href.matches(".*(contact|contacts|contact-us|contact_us|enviar-mensaje|enviar_mensaje)[^\\s\"'>]*")) {
-                    candidateLinks.add(href);
+                if (href.matches(".*(?i)(contact|contacts|contact-us|contact_us|enviar-mensaje|enviar_mensaje)[^\\s\"'>]*")) {
+                    score += 2;
+                }
+
+                if (score > 0 && href.length() > 1 && !href.equals("/")) {
+                    score += 1;
+                }
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestCandidate = href;
                 }
             }
 
-            if (candidateLinks.isEmpty()) {
+            if (bestCandidate == null) {
                 return "";
             }
 
-            String contactPageUrl = candidateLinks.get(0);
+            String contactPageUrl = bestCandidate;
             contactPageUrl = appendHostname(contactPageUrl, url);
             return normalizeContactUrl(contactPageUrl);
         }
