@@ -326,7 +326,7 @@ class Parser {
 
             Matcher matcher = linkPattern.matcher(html);
             String bestCandidate = null;
-            int bestScore = -1;
+            int bestScore = 0;
 
             while (matcher.find()) {
                 String href = matcher.group("href").trim();
