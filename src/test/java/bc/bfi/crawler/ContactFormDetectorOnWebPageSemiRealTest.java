@@ -79,4 +79,70 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
         String page = readString(Paths.get("src/test/resources/chfbc.client.renweb.com-inquiry.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(false));
     }
+
+    @Test
+    public void testIreneZoeAlameda() throws IOException {
+        String page = readString(Paths.get("src/test/resources/irenezoealameda.com-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(true));
+    }
+
+    @Test
+    public void testMeganMaxwell() throws IOException {
+        String page = readString(Paths.get("src/test/resources/megan-maxwell.com-contacto.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testUgr() throws IOException {
+        String page = readString(Paths.get("src/test/resources/ugr.es-enviar-mensaje.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testNuriaAmat() throws IOException {
+        String page = readString(Paths.get("src/test/resources/nuriaamat.com-contacto.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(true));
+    }
+
+    @Test
+    public void testPartidoFeminista() throws IOException {
+        String page = readString(Paths.get("src/test/resources/partidofeminista.es-contacto-partido-feminista.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testJoanneFluke() throws IOException {
+        String page = readString(Paths.get("src/test/resources/joannefluke.com-contact-me.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(true));
+    }
+
+    @Test
+    public void testKarenRobards() throws IOException {
+        String page = readString(Paths.get("src/test/resources/karenrobards.com-connect.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testRobertCrais() throws IOException {
+        String page = readString(Paths.get("src/test/resources/robertcrais.com-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testSaraparetsky() throws IOException {
+        String page = readString(Paths.get("src/test/resources/saraparetsky.com-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testJuliaQuinn() throws IOException {
+        String page = readString(Paths.get("src/test/resources/juliaquinn.com-mediakit.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testJanetDailey() throws IOException {
+        String page = readString(Paths.get("src/test/resources/janetdailey.com-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(true));
+    }
 }
