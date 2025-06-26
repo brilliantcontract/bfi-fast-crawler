@@ -93,8 +93,25 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
     }
 
     @Test
+    public void testMtpcaStaff() throws IOException {
+        String page = readString(Paths.get("src/test/resources/mtpca.org-staff.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
     public void testBayoaksMiami() throws IOException {
         String page = readString(Paths.get("src/test/resources/bayoaksmiami.com-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+    
+    public void testSunyNiagaraSbdc() throws IOException {
+        String page = readString(Paths.get("src/test/resources/sunyniagara.edu-sbdc.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testAhfincContactUs() throws IOException {
+        String page = readString(Paths.get("src/test/resources/ahfinc.net-contact-us.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(true));
     }
 
@@ -103,7 +120,8 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
         String page = readString(Paths.get("src/test/resources/megan-maxwell.com-contacto.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(false));
     }
-    
+
+    @Test
     public void testBctgm() throws IOException {
         String page = readString(Paths.get("src/test/resources/bctgm.org-organize-contact.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(false));
@@ -120,9 +138,16 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
         String page = readString(Paths.get("src/test/resources/nuriaamat.com-contacto.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(false));
     }
-    
+
+    @Test
     public void testBethanyBeachFire() throws IOException {
         String page = readString(Paths.get("src/test/resources/bethanybeachfire.com-contact-us.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testAhome2come2ContactUs() throws IOException {
+        String page = readString(Paths.get("src/test/resources/ahome2come2.com-contact-us.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(true));
     }
 
@@ -139,13 +164,26 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
     }
 
     @Test
+    public void testAimegroupPortal() throws IOException {
+        String page = readString(Paths.get("src/test/resources/aimegroup.com-welcome-to-the-new-aime-member-portal.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
     public void testJoanneFluke() throws IOException {
         String page = readString(Paths.get("src/test/resources/joannefluke.com-contact-me.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(false));
     }
-    
+
+    @Test
     public void testGsvymca() throws IOException {
         String page = readString(Paths.get("src/test/resources/gsvymca.org-contact-information.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testAlaskaairmenAbout() throws IOException {
+        String page = readString(Paths.get("src/test/resources/alaskaairmen.org-about.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(true));
     }
 
@@ -178,9 +216,16 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
         String page = readString(Paths.get("src/test/resources/janetdailey.com-contact.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(false));
     }
-    
+
+    @Test
     public void testCincfoundation() throws IOException {
         String page = readString(Paths.get("src/test/resources/cincfoundation.org-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+
+    @Test
+    public void testAlliedtradesFeedback() throws IOException {
+        String page = readString(Paths.get("src/test/resources/alliedtrades-online.com-feedback.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(true));
     }
 
@@ -199,6 +244,23 @@ public class ContactFormDetectorOnWebPageSemiRealTest {
     @Test
     public void testCasaDeLaFamilia() throws IOException {
         String page = readString(Paths.get("src/test/resources/casadelafamilia.org-contact-us.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(false));
+    }
+    
+    public void testAmicstlContactUs() throws IOException {
+        String page = readString(Paths.get("src/test/resources/amicstl.org-contact-us.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(true));
+    }
+
+    @Test
+    public void testArcadiaContact() throws IOException {
+        String page = readString(Paths.get("src/test/resources/arcadia.org-contact.html"), StandardCharsets.UTF_8);
+        assertThat(detector.hasContactFormFromHtml(page), is(true));
+    }
+
+    @Test
+    public void testAriseEducationalCenterContact() throws IOException {
+        String page = readString(Paths.get("src/test/resources/ariseeducationalcenter.com-contact.html"), StandardCharsets.UTF_8);
         assertThat(detector.hasContactFormFromHtml(page), is(true));
     }
 }
