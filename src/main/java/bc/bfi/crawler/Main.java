@@ -7,37 +7,55 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    private final static Path URLS_FILE = Paths.get("urls.txt");
+    private static final Path DEFAULT_URLS_FILE = Paths.get("urls.txt");
 
-    private final Storage storage = new Storage();
-    private final Downloader downloader = new Downloader();
-    private final Parser parser = new Parser();
+    private final Path urlsFile;
+    private final Storage storage;
+    private final Downloader downloader;
+    private final Parser parser;
+    private final ContactFormDetector contactFormDetector;
+
+    public Main() {
+        this(DEFAULT_URLS_FILE, new Storage(), new Downloader(), new Parser(), null);
+    }
+
+    Main(Path urlsFile, Storage storage, Downloader downloader, Parser parser, ContactFormDetector detector) {
+        this.urlsFile = urlsFile;
+        this.storage = storage;
+        this.downloader = downloader;
+        this.parser = parser;
+        this.contactFormDetector = detector != null ? detector : new ContactFormDetector(downloader);
+    }
 
     public static void main(String[] args) throws IOException {
         new Main().go();
     }
 
     private void go() throws IOException {
-        for (String url : Files.readAllLines(URLS_FILE)) {
+        for (String url : Files.readAllLines(urlsFile)) {
             System.out.println("Scrape website: " + url);
 
             String page = downloader.load(url);
 
             Website website = new Website(url);
-            website.setContactFormUrl(parser.extractContactPageUrl(page, url));
             website.setEmails(parser.extractEmail(page));
             website.setPhones(parser.extractPhone(page));
             website.setSocialLinks(parser.extractSocialLinks(page));
 
-            if (!website.getContactFormUrl().isEmpty()) {
-                if (website.getEmails().isEmpty()) {
-                    website.setEmails(parser.extractEmail(page));
-                }
-                if (website.getPhones().isEmpty()) {
-                    website.setPhones(parser.extractPhone(page));
-                }
-                if (website.getSocialLinks().isEmpty()) {
-                    website.setSocialLinks(parser.extractSocialLinks(page));
+            String contactUrl = parser.extractContactPageUrl(page, url);
+            if (!contactUrl.isEmpty()) {
+                String contactPage = downloader.load(contactUrl);
+                if (contactFormDetector.hasContactFormFromHtml(contactPage)) {
+                    website.setContactFormUrl(contactUrl);
+                    if (website.getEmails().isEmpty()) {
+                        website.setEmails(parser.extractEmail(contactPage));
+                    }
+                    if (website.getPhones().isEmpty()) {
+                        website.setPhones(parser.extractPhone(contactPage));
+                    }
+                    if (website.getSocialLinks().isEmpty()) {
+                        website.setSocialLinks(parser.extractSocialLinks(contactPage));
+                    }
                 }
             }
 
