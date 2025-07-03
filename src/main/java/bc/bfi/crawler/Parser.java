@@ -302,6 +302,10 @@ class Parser {
                 if (lower.matches(".*@[0-9]+x\\.(png|jpe?g|gif|bmp|svg|webp)$")) {
                     continue;
                 }
+                if (lower.endsWith("@sentry.wixpress.com")
+                        || lower.endsWith("@sentry-next.wixpress.com")) {
+                    continue;
+                }
                 canonicalToOriginal.put(lower, email);
             }
 
