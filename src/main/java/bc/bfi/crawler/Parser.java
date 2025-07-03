@@ -241,8 +241,19 @@ class Parser {
 
             removeShortestPhoneNumbers(phoneNumbers);
 
-            // Remove duplicate numbers while keeping the original order
-            phoneNumbers = new ArrayList<>(new LinkedHashSet<>(phoneNumbers));
+            // Remove duplicate numbers appearing in different formats while
+            // preserving the first occurrence. Comparison is done using only
+            // numeric digits to avoid issues with spaces, dashes or country
+            // code variations.
+            Map<String, String> canonical = new LinkedHashMap<>();
+            for (String phone : phoneNumbers) {
+                String digits = phone.replaceAll("\\D", "");
+                if (digits.length() == 11 && digits.startsWith("1")) {
+                    digits = digits.substring(1);
+                }
+                canonical.putIfAbsent(digits, phone);
+            }
+            phoneNumbers = new ArrayList<>(canonical.values());
 
             return phoneNumbers.stream().collect(Collectors.joining("◙"));
         }
