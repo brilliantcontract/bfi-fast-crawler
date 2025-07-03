@@ -29,6 +29,9 @@ public class MainContactPageFilterTest {
                 .thenReturn("https://example.com/contact");
         when(downloader.load("https://example.com/contact")).thenReturn("contact");
         when(detector.hasContactFormFromHtml("contact")).thenReturn(false);
+        when(parser.extractEmail("contact")).thenReturn("e");
+        when(parser.extractPhone("contact")).thenReturn("p");
+        when(parser.extractSocialLinks("contact")).thenReturn("s");
 
         Main main = new Main(urls, storage, downloader, parser, detector);
         java.lang.reflect.Method m = Main.class.getDeclaredMethod("go");
@@ -39,6 +42,9 @@ public class MainContactPageFilterTest {
         verify(storage).append(captor.capture());
         Website site = captor.getValue();
         assertThat(site.getContactFormUrl(), is(""));
+        assertThat(site.getEmails(), is("e"));
+        assertThat(site.getPhones(), is("p"));
+        assertThat(site.getSocialLinks(), is("s"));
     }
 
     @Test
