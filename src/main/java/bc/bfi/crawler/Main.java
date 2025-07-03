@@ -45,17 +45,18 @@ public class Main {
             String contactUrl = parser.extractContactPageUrl(page, url);
             if (!contactUrl.isEmpty()) {
                 String contactPage = downloader.load(contactUrl);
-                if (contactFormDetector.hasContactFormFromHtml(contactPage)) {
+                boolean hasForm = contactFormDetector.hasContactFormFromHtml(contactPage);
+                if (hasForm) {
                     website.setContactFormUrl(contactUrl);
-                    if (website.getEmails().isEmpty()) {
-                        website.setEmails(parser.extractEmail(contactPage));
-                    }
-                    if (website.getPhones().isEmpty()) {
-                        website.setPhones(parser.extractPhone(contactPage));
-                    }
-                    if (website.getSocialLinks().isEmpty()) {
-                        website.setSocialLinks(parser.extractSocialLinks(contactPage));
-                    }
+                }
+                if (website.getEmails().isEmpty()) {
+                    website.setEmails(parser.extractEmail(contactPage));
+                }
+                if (website.getPhones().isEmpty()) {
+                    website.setPhones(parser.extractPhone(contactPage));
+                }
+                if (website.getSocialLinks().isEmpty()) {
+                    website.setSocialLinks(parser.extractSocialLinks(contactPage));
                 }
             }
 
