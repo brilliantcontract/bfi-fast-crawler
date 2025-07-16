@@ -23,8 +23,8 @@ class Utils {
         } catch (MalformedURLException e) {
             // Optional: handle URLs without protocol
             try {
-                URL url = new URL("http://" + inputUrl);
-                return "http://" + url.getHost();
+                URL url = new URL("https://" + inputUrl);
+                return "https://" + url.getHost();
             } catch (MalformedURLException ex) {
                 return ""; // invalid URL
             }
