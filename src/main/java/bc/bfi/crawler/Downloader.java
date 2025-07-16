@@ -131,7 +131,9 @@ class Downloader {
         if (status != HttpURLConnection.HTTP_OK) {
             if (status == HttpURLConnection.HTTP_MOVED_TEMP
                     || status == HttpURLConnection.HTTP_MOVED_PERM
-                    || status == HttpURLConnection.HTTP_SEE_OTHER) {
+                    || status == HttpURLConnection.HTTP_SEE_OTHER
+                    || status == 307 /* HTTP_TEMP_REDIRECT */
+                    || status == 308 /* HTTP_PERM_REDIRECT */) {
                 redirect = true;
             }
         }
