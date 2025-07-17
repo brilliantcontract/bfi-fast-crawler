@@ -57,7 +57,11 @@ class ContactFormDetector {
     }
 
     private boolean hasNameField(Element form) {
-        return !form.select("input[name~=(?i)name], input[id~=(?i)name], input[class~=(?i)name], input[placeholder~=(?i)name], label:matchesOwn((?i)name)").isEmpty();
+        return !form.select(
+                "input[name~=(?i)name], input[name^=name i], input[name*=name i], " +
+                "input[id~=(?i)name], input[class~=(?i)name], " +
+                "input[placeholder~=(?i)name], label:matchesOwn((?i)name)")
+                .isEmpty();
     }
 
     private boolean hasEmailField(Element form) {

@@ -49,4 +49,16 @@ public class ContactFormDetectorTest {
         ContactFormDetector detector = new ContactFormDetector();
         assertThat(detector.hasContactFormFromHtml(html), is(true));
     }
+
+    @Test
+    public void testDetectsNameWithHyphen() {
+        String html = "<form>" +
+                "<input name='name-*'>" +
+                "<input name='email' type='email'>" +
+                "<textarea placeholder='Message'></textarea>" +
+                "<button type='submit'>Send</button>" +
+                "</form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(true));
+    }
 }
