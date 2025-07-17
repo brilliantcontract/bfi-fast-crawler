@@ -38,7 +38,7 @@ class Downloader {
 
     private String cookies = "";
 
-    String load(final String url) {
+    String loadBaseUrl(final String url) {
         String page = "";
 
         String baseUrl = Utils.extractBaseUrl(url);
@@ -55,6 +55,31 @@ class Downloader {
                 page = loadWithScrapeNinja(baseUrl);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Cannot download " + baseUrl + " with ScrapeNinja.", ex);
+            }
+        }
+        
+        if(page.isEmpty()){
+            System.out.println("ScrapeNinja download failed.");
+        }
+
+        return page;
+    }
+
+    String load(final String url) {
+        String page = "";
+
+        try {
+            page = loadWithDirectConnection(url);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Cannot download " + url + " with direct connection.", ex);
+        }
+
+        if (page.isEmpty()) {
+            System.out.println("Direct download failed. Try to download " + url + " with ScrapeNinja.");
+            try {
+                page = loadWithScrapeNinja(url);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "Cannot download " + url + " with ScrapeNinja.", ex);
             }
         }
         

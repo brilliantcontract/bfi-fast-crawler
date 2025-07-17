@@ -21,13 +21,13 @@ public class MainContactPageFilterTest {
         ContactFormDetector detector = mock(ContactFormDetector.class);
         Storage storage = mock(Storage.class);
 
-        when(downloader.load("https://example.com")).thenReturn("home");
+        when(downloader.loadBaseUrl("https://example.com")).thenReturn("home");
         when(parser.extractEmail("home")).thenReturn("");
         when(parser.extractPhone("home")).thenReturn("");
         when(parser.extractSocialLinks("home")).thenReturn("");
         when(parser.extractContactPageUrl("home", "https://example.com"))
                 .thenReturn("https://example.com/contact");
-        when(downloader.load("https://example.com/contact")).thenReturn("contact");
+        when(downloader.loadBaseUrl("https://example.com/contact")).thenReturn("contact");
         when(detector.hasContactFormFromHtml("contact")).thenReturn(false);
         when(parser.extractEmail("contact")).thenReturn("e");
         when(parser.extractPhone("contact")).thenReturn("p");
@@ -57,13 +57,13 @@ public class MainContactPageFilterTest {
         ContactFormDetector detector = mock(ContactFormDetector.class);
         Storage storage = mock(Storage.class);
 
-        when(downloader.load("https://example.com")).thenReturn("home");
+        when(downloader.loadBaseUrl("https://example.com")).thenReturn("home");
         when(parser.extractEmail("home")).thenReturn("");
         when(parser.extractPhone("home")).thenReturn("");
         when(parser.extractSocialLinks("home")).thenReturn("");
         when(parser.extractContactPageUrl("home", "https://example.com"))
                 .thenReturn("https://example.com/contact");
-        when(downloader.load("https://example.com/contact")).thenReturn("contact");
+        when(downloader.loadBaseUrl("https://example.com/contact")).thenReturn("contact");
         when(detector.hasContactFormFromHtml("contact")).thenReturn(true);
         when(parser.extractEmail("contact")).thenReturn("e");
         when(parser.extractPhone("contact")).thenReturn("p");

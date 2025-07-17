@@ -17,7 +17,7 @@ public class BugFixAlaskaairmenOrgTest {
     @Ignore("Requires network access")
     @Test
     public void testEmail() {
-        String page = downloader.load(URL);
+        String page = downloader.loadBaseUrl(URL);
         String emails = parser.extractEmail(page);
         
         assertThat(emails, containsString("info@alaskaairmen.org"));

@@ -17,7 +17,7 @@ public class BugFixAhfincNetTest {
     @Ignore("Requires network access and ScrapeNinja fails to download it")
     @Test
     public void testExtractContactFormUrl() {
-        String page = downloader.load(URL);
+        String page = downloader.loadBaseUrl(URL);
         String contactFormUrl = parser.extractContactPageUrl(page, "https://ahfinc.net");
         
         assertThat(contactFormUrl, containsString("https://ahfinc.net/contact-us"));

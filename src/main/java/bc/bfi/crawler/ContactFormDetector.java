@@ -53,7 +53,7 @@ class ContactFormDetector {
         if (hasEmailField(form)) score++;
         if (hasMessageField(form)) score++;
         if (hasSubmitButton(form)) score++;
-        return score >= 3;
+        return score >= 2;
     }
 
     private boolean hasNameField(Element form) {

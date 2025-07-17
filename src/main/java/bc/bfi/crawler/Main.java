@@ -35,7 +35,7 @@ public class Main {
         for (String url : Files.readAllLines(urlsFile)) {
             System.out.println("Scrape website: " + url);
 
-            String page = downloader.load(url);
+            String page = downloader.loadBaseUrl(url);
 
             Website website = new Website(url);
             website.setEmails(parser.extractEmail(page));
