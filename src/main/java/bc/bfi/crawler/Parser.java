@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.*;
 import java.util.*;
+import org.jsoup.Jsoup;
 import java.util.stream.Collectors;
 
 class Parser {
@@ -226,6 +227,16 @@ class Parser {
         }
 
         String extractPhones(String pageContent) {
+            if (pageContent == null) {
+                return "";
+            }
+
+            try {
+                pageContent = Jsoup.parse(pageContent).text();
+            } catch (Exception ex) {
+                // ignore parsing issues and fallback to original content
+            }
+
             List<String> phoneNumbers = new ArrayList<>();
             Matcher matcher = pattern.matcher(pageContent);
 
