@@ -24,7 +24,8 @@ class Storage {
         "EMAILS",
         "PHONES",
         "CONTACT_FORM_URL",
-        "SOCIAL_LINKS"
+        "SOCIAL_LINKS",
+        "MESSAGE"
     };
 
     Storage() {
@@ -63,6 +64,7 @@ class Storage {
         record.add(website.getPhones());
         record.add(website.getContactFormUrl());
         record.add(website.getSocialLinks());
+        record.add(website.getMessage());
 
         Path path = Paths.get(STORAGE_FILE);
         try (Writer writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.APPEND)) {
