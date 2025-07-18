@@ -37,9 +37,15 @@ class Downloader {
     };
 
     private String cookies = "";
+    private boolean scrapeNinjaUsed = false;
+
+    boolean wasScrapeNinjaUsed() {
+        return scrapeNinjaUsed;
+    }
 
     String loadBaseUrl(final String url) {
         String page = "";
+        scrapeNinjaUsed = false;
 
         String baseUrl = Utils.extractBaseUrl(url);
 
@@ -51,6 +57,7 @@ class Downloader {
 
         if (page.isEmpty()) {
             System.out.println("Direct download failed. Try to download " + baseUrl + " with ScrapeNinja.");
+            scrapeNinjaUsed = true;
             try {
                 page = loadWithScrapeNinja(baseUrl);
             } catch (IOException ex) {
@@ -67,6 +74,7 @@ class Downloader {
 
     String load(final String url) {
         String page = "";
+        scrapeNinjaUsed = false;
 
         try {
             page = loadWithDirectConnection(url);
@@ -76,6 +84,7 @@ class Downloader {
 
         if (page.isEmpty()) {
             System.out.println("Direct download failed. Try to download " + url + " with ScrapeNinja.");
+            scrapeNinjaUsed = true;
             try {
                 page = loadWithScrapeNinja(url);
             } catch (IOException ex) {

@@ -36,8 +36,16 @@ public class Main {
             System.out.println("Scrape website: " + url);
 
             String page = downloader.loadBaseUrl(url);
-
             Website website = new Website(url);
+
+            if (downloader.wasScrapeNinjaUsed()) {
+                website.addMessage("Direct download failed; used ScrapeNinja");
+            }
+
+            String text = org.jsoup.Jsoup.parse(page).text().trim();
+            if (text.length() < 1000) {
+                website.addMessage("Website most likely rendered with JavaScript");
+            }
             website.setEmails(parser.extractEmail(page));
             website.setPhones(parser.extractPhone(page));
             website.setSocialLinks(parser.extractSocialLinks(page));
@@ -45,6 +53,9 @@ public class Main {
             String contactUrl = parser.extractContactPageUrl(page, url);
             if (!contactUrl.isEmpty()) {
                 String contactPage = downloader.load(contactUrl);
+                if (downloader.wasScrapeNinjaUsed()) {
+                    website.addMessage("Direct download failed; used ScrapeNinja");
+                }
                 boolean hasForm = contactFormDetector.hasContactFormFromHtml(contactPage);
                 if (hasForm) {
                     website.setContactFormUrl(contactUrl);

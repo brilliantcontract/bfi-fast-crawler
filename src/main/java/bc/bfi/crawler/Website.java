@@ -10,6 +10,7 @@ class Website {
     private String phones = "";
     private String contactFormUrl = "";
     private String socialLinks = "";
+    private String message = "";
 
     public Website(String domain) {
         this.domain = domain;
@@ -51,12 +52,28 @@ class Website {
         return domain;
     }
 
+    String getMessage() {
+        return message;
+    }
+
+    void addMessage(String msg) {
+        if (msg == null || msg.isEmpty()) {
+            return;
+        }
+        if (message.isEmpty()) {
+            message = msg;
+        } else if (!message.contains(msg)) {
+            message += "; " + msg;
+        }
+    }
+
     void print() {
         System.out.println("Domain: " + this.domain);
         System.out.println("Contact form: " + this.contactFormUrl);
         System.out.println("E-mails: " + this.emails);
         System.out.println("Phones: " + this.phones);
         System.out.println("Social links: " + this.socialLinks);
+        System.out.println("Message: " + this.message);
     }
 
 }
