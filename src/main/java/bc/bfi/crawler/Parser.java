@@ -310,7 +310,7 @@ class Parser {
                 String email = matcher.group("value");
                 String canonical = email.replaceFirst("^20(?=[A-Za-z0-9])", "");
                 String lower = canonical.toLowerCase(Locale.ENGLISH);
-                if (lower.matches(".*@[0-9]+x\\.(png|jpe?g|gif|bmp|svg|webp)$")) {
+                if (lower.matches(".*\\.(png|jpe?g|gif|bmp|svg|webp)$")) {
                     continue;
                 }
                 if (lower.endsWith("@sentry.wixpress.com")
