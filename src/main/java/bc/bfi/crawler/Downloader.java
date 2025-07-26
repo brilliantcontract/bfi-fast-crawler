@@ -53,6 +53,14 @@ class Downloader {
             page = loadWithDirectConnection(baseUrl);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot download " + baseUrl + " with direct connection.", ex);
+            if (baseUrl.startsWith("https://") && isSslException(ex)) {
+                String httpUrl = baseUrl.replaceFirst("^https://", "http://");
+                try {
+                    page = loadWithDirectConnection(httpUrl);
+                } catch (IOException ex2) {
+                    LOGGER.log(Level.SEVERE, "Cannot download " + httpUrl + " with direct connection.", ex2);
+                }
+            }
         }
 
         if (page.isEmpty()) {
@@ -80,6 +88,14 @@ class Downloader {
             page = loadWithDirectConnection(url);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot download " + url + " with direct connection.", ex);
+            if (url.startsWith("https://") && isSslException(ex)) {
+                String httpUrl = url.replaceFirst("^https://", "http://");
+                try {
+                    page = loadWithDirectConnection(httpUrl);
+                } catch (IOException ex2) {
+                    LOGGER.log(Level.SEVERE, "Cannot download " + httpUrl + " with direct connection.", ex2);
+                }
+            }
         }
 
         if (page.isEmpty()) {
@@ -200,5 +216,16 @@ class Downloader {
             baos.write(buffer, 0, len);
         }
         return baos.toByteArray();
+    }
+
+    private boolean isSslException(IOException ex) {
+        Throwable t = ex;
+        while (t != null) {
+            if (t instanceof javax.net.ssl.SSLException) {
+                return true;
+            }
+            t = t.getCause();
+        }
+        return false;
     }
 }
