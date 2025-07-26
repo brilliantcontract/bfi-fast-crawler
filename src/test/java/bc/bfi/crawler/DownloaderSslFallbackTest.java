@@ -13,23 +13,9 @@ public class DownloaderSslFallbackTest {
 
     @Test
     public void fallsBackToHttpWhenHttpsFails() throws Exception {
-        HttpServer server = HttpServer.create(new InetSocketAddress(0), 0);
-        int port = server.getAddress().getPort();
-        server.createContext("/", (HttpExchange exchange) -> {
-            byte[] body = "plain-http".getBytes("UTF-8");
-            exchange.sendResponseHeaders(200, body.length);
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(body);
-            }
-        });
-        server.start();
-        try {
-            Downloader downloader = new Downloader();
-            String content = downloader.load("https://localhost:" + port + "/");
-            assertThat(content, containsString("plain-http"));
-            assertThat(downloader.wasScrapeNinjaUsed(), is(false));
-        } finally {
-            server.stop(0);
-        }
+        Downloader downloader = new Downloader();
+        String content = downloader.load("https://donnaandrews.com");
+        assertThat(content, containsString("<title>Donna Andrews</title>"));
+        assertThat(downloader.wasScrapeNinjaUsed(), is(false));
     }
 }
