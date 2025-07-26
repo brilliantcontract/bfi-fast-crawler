@@ -286,6 +286,13 @@ class Parser {
 
         private static final String emailRegex
                 = "(\\b|^)(?<value>[A-Za-z0-9\\-_]+[A-Za-z0-9\\-_.]*@[A-Za-z0-9.:\\-]+\\.[A-Za-z]{2,12})(\\b|$)";
+        private static final List<String> excludedDomains = Arrays.asList(
+                "sentry.wixpress.com",
+                "sentry-next.wixpress.com",
+                "domain.com",
+                "sentry.io",
+                "myftpupload.com"
+        );
         private final Pattern pattern;
 
         EmailParser() {
@@ -313,8 +320,15 @@ class Parser {
                 if (lower.matches(".*\\.(png|jpe?g|gif|bmp|svg|webp)$")) {
                     continue;
                 }
-                if (lower.endsWith("@sentry.wixpress.com")
-                        || lower.endsWith("@sentry-next.wixpress.com")) {
+                String domain = lower.substring(lower.indexOf('@') + 1);
+                boolean skip = false;
+                for (String excluded : excludedDomains) {
+                    if (domain.endsWith(excluded)) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if (skip) {
                     continue;
                 }
                 canonicalToOriginal.put(lower, email);
