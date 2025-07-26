@@ -43,7 +43,7 @@ public class Main {
             }
 
             String text = org.jsoup.Jsoup.parse(page).text().trim();
-            if (text.length() < 1000) {
+            if (text.length() < 500) {
                 website.addMessage("Website most likely rendered with JavaScript");
             }
             website.setEmails(parser.extractEmail(page));
