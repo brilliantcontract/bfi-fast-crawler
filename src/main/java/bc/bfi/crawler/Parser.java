@@ -118,6 +118,15 @@ class Parser {
         }
 
         private boolean isProfileUrl(String url) {
+            try {
+                URL parsed = new URL(url);
+                String path = parsed.getPath();
+                if (path == null || path.isEmpty() || "/".equals(path)) {
+                    return false;
+                }
+            } catch (MalformedURLException ex) {
+                // ignore malformed urls
+            }
             String lower = url.toLowerCase(Locale.ENGLISH);
             if (lower.contains("facebook.com")) {
                 if (lower.matches("https?://www\\.facebook\\.com/(?:groups|events)/.*")) {
