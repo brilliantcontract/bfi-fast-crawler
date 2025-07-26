@@ -220,6 +220,7 @@ class Parser {
 
         private static final String phoneRegex
                 = "(?<!\\d)(?<value>(?:\\+?1[\\s.-]*)?\\(?\\d{3}\\)?[\\s.-]*\\d{3}[\\s.-]*\\d{4}|\\d{10,11}|\\d{2}-\\d{7})(?!\\d)";
+        // Old regexp "(?<!\\d)(?<value>(?:\\+?1[\\s.-]*)?\\(?\\d{3}\\)?[\\s.-]*\\d{3}[\\s.-]*\\d{4}|\\d{10,11}|\\d{2}-\\d{7})(?!\\d)"
         private final Pattern pattern;
 
         PhoneParser() {
