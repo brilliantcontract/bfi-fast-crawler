@@ -176,18 +176,15 @@ class Downloader {
      */
     private HttpURLConnection redirect(HttpURLConnection connection, final Map<String, String> headers)
             throws IOException {
-        boolean redirect = false;
         int status = connection.getResponseCode();
-        if (status != HttpURLConnection.HTTP_OK) {
-            if (status == HttpURLConnection.HTTP_MOVED_TEMP
-                    || status == HttpURLConnection.HTTP_MOVED_PERM
-                    || status == HttpURLConnection.HTTP_SEE_OTHER
-                    || status == 307 /* HTTP_TEMP_REDIRECT */
-                    || status == 308 /* HTTP_PERM_REDIRECT */) {
-                redirect = true;
-            }
-        }
-        //System.out.println("Response Code is " + status);
+        boolean redirect =
+                status == HttpURLConnection.HTTP_MOVED_TEMP
+                || status == HttpURLConnection.HTTP_MOVED_PERM
+                || status == HttpURLConnection.HTTP_SEE_OTHER
+                || status == 307 /* HTTP_TEMP_REDIRECT */
+                || status == 308 /* HTTP_PERM_REDIRECT */
+                || (status == HttpURLConnection.HTTP_FORBIDDEN
+                        && connection.getHeaderField("Location") != null);
 
         if (redirect) {
             String newUrl = connection.getHeaderField("Location");
@@ -203,7 +200,8 @@ class Downloader {
                 connection.setRequestProperty("Cookie", cookies);
             }
 
-            //System.out.println("Redirect to URL : " + newUrl);
+            // Recursively follow further redirects if needed
+            connection = redirect(connection, headers);
         }
 
         return connection;
