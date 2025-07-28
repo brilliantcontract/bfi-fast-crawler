@@ -2,6 +2,8 @@ package bc.bfi.crawler;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 class Website {
 
@@ -24,12 +26,20 @@ class Website {
         this.emails = emails;
     }
 
+    void appendEmails(String emails) {
+        this.emails = append(this.emails, emails, true);
+    }
+
     String getPhones() {
         return phones;
     }
 
     void setPhones(String phones) {
         this.phones = phones;
+    }
+
+    void appendPhones(String phones) {
+        this.phones = append(this.phones, phones, false);
     }
 
     String getContactFormUrl() {
@@ -46,6 +56,46 @@ class Website {
 
     void setSocialLinks(String socialLinks) {
         this.socialLinks = socialLinks;
+    }
+
+    void appendSocialLinks(String links) {
+        this.socialLinks = append(this.socialLinks, links, true);
+    }
+
+    private String append(String original, String extra, boolean ignoreCase) {
+        if (extra == null || extra.isEmpty()) {
+            return original;
+        }
+        Map<String, String> canonical = new LinkedHashMap<>();
+        if (original != null && !original.isEmpty()) {
+            for (String part : original.split("◙")) {
+                if (part.isEmpty()) {
+                    continue;
+                }
+                canonical.put(normalize(part, ignoreCase), part);
+            }
+        }
+        for (String part : extra.split("◙")) {
+            if (part.isEmpty()) {
+                continue;
+            }
+            String key = normalize(part, ignoreCase);
+            if (!canonical.containsKey(key)) {
+                canonical.put(key, part);
+            }
+        }
+        return String.join("◙", canonical.values());
+    }
+
+    private String normalize(String value, boolean ignoreCase) {
+        if (!ignoreCase) {
+            String digits = value.replaceAll("\\D", "");
+            if (digits.length() == 11 && digits.startsWith("1")) {
+                digits = digits.substring(1);
+            }
+            return digits;
+        }
+        return value.toLowerCase();
     }
 
     String getDomain() {
