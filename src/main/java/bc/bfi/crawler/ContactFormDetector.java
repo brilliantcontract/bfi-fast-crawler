@@ -83,28 +83,50 @@ class ContactFormDetector {
 
     private boolean isSearchForm(Element form) {
         if (form.attr("action").toLowerCase().contains("search")) return true;
-        return !form.select("input[type=search], input[name~=(?i)search], input[id~=(?i)search], button:matchesOwn((?i)search)").isEmpty();
+        return !form.select(
+                "input[type=search], " +
+                "input[name*=search i], input[id*=search i], input[value*=search i], " +
+                "button[value*=search i], button:matchesOwn((?i)search)"
+        ).isEmpty();
     }
 
     private boolean isDonateForm(Element form) {
         if (form.attr("action").toLowerCase().contains("donat")) return true;
-        return !form.select("input[name~=(?i)donat], input[id~=(?i)donat], button:matchesOwn((?i)donat)").isEmpty();
+        return !form.select(
+                "input[name*=donat i], input[id*=donat i], input[value*=donat i], " +
+                "button[value*=donat i], button:matchesOwn((?i)donat)"
+        ).isEmpty();
     }
 
     private boolean isSubscriptionForm(Element form) {
         if (form.attr("action").toLowerCase().contains("subscri")) return true;
-        return !form.select("input[name~=(?i)subscri], button:matchesOwn((?i)subscri)").isEmpty();
+        return !form.select(
+                "input[name*=subscri i], input[id*=subscri i], input[value*=subscri i], " +
+                "button[value*=subscri i], button:matchesOwn((?i)subscri)"
+        ).isEmpty();
     }
 
     private boolean isSignInForm(Element form) {
         boolean hasPassword = !form.select("input[type=password]").isEmpty();
-        boolean hasLogin = !form.select("input[name~=(?i)login|sign.?in], button:matchesOwn((?i)log.?in|sign.?in)").isEmpty();
+        boolean hasLogin = !form.select(
+                "input[name~=(?i)log.?in|sign.?in], " +
+                "input[id~=(?i)log.?in|sign.?in], " +
+                "input[value~=(?i)log.?in|sign.?in], " +
+                "button[value~=(?i)log.?in|sign.?in], " +
+                "button:matchesOwn((?i)log.?in|sign.?in)"
+        ).isEmpty();
         return hasPassword && hasLogin;
     }
 
     private boolean isSignUpForm(Element form) {
         boolean hasPassword = !form.select("input[type=password]").isEmpty();
-        boolean hasSignup = !form.select("input[name~=(?i)sign.?up|register], button:matchesOwn((?i)sign.?up|register)").isEmpty();
+        boolean hasSignup = !form.select(
+                "input[name~=(?i)sign.?up|register], " +
+                "input[id~=(?i)sign.?up|register], " +
+                "input[value~=(?i)sign.?up|register], " +
+                "button[value~=(?i)sign.?up|register], " +
+                "button:matchesOwn((?i)sign.?up|register)"
+        ).isEmpty();
         return hasPassword && hasSignup;
     }
 }

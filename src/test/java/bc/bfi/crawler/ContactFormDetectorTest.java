@@ -41,6 +41,57 @@ public class ContactFormDetectorTest {
         assertThat(detector.hasContactFormFromHtml(html), is(false));
     }
 
+
+    @Test
+    public void testIgnoresSearchFormById() {
+        String html = "<form>" +
+                "<input id='search-box'>" +
+                "<button type='submit'>Go</button>" +
+                "</form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
+    }
+
+    @Test
+    public void testIgnoresDonateFormByValue() {
+        String html = "<form>" +
+                "<button type='submit' value='Donate'>Donate</button>" +
+                "</form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
+    }
+
+    @Test
+    public void testIgnoresSubscriptionFormByValue() {
+        String html = "<form>" +
+                "<input type='submit' value='Subscribe'>" +
+                "</form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
+    }
+
+    @Test
+    public void testIgnoresSignInFormByButton() {
+        String html = "<form>" +
+                "<input type='text' name='user'>" +
+                "<input type='password'>" +
+                "<button type='submit'>Sign In</button>" +
+                "</form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
+    }
+
+    @Test
+    public void testIgnoresSignUpFormByButton() {
+        String html = "<form>" +
+                "<input type='text' name='user'>" +
+                "<input type='password'>" +
+                "<button type='submit'>Register</button>" +
+                "</form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
+    }
+
     @Test
     public void testMultipleFormsOneContact() {
         String html = "<form action='/search'><input name='q'></form>" +
