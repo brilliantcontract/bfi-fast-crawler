@@ -132,6 +132,9 @@ class Parser {
                 if (lower.matches("https?://www\\.facebook\\.com/(?:groups|events)/.*")) {
                     return false;
                 }
+                if (lower.contains("photo.php")) {
+                    return false;
+                }
             }
             if (lower.contains("twitter.com") || lower.contains("x.com")) {
                 if (lower.matches("https?://www\\.(?:twitter\\.com|x\\.com)/[^/]+/status/.*")) {
