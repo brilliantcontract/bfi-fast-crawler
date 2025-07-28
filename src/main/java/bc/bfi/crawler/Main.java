@@ -37,6 +37,7 @@ public class Main {
 
             String page = downloader.loadBaseUrl(url);
             Website website = new Website(url);
+            website.setDomainCountry(Utils.getDomainCountry(url));
 
             if (downloader.wasScrapeNinjaUsed()) {
                 website.addMessage("Direct download failed; used ScrapeNinja");

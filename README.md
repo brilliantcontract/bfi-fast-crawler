@@ -6,6 +6,7 @@ This project is a simple Java application that collects contact information from
 - phone numbers
 - the contact page URL
 - links to popular social networks
+- the domain country inferred from the website URL
 
 The extracted data is written to `websites.csv` in CSV format.
 

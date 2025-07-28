@@ -21,6 +21,7 @@ class Storage {
 
     private static final String[] HEADERS = {
         "DOMAIN",
+        "DOMAIN_COUNTRY",
         "EMAILS",
         "PHONES",
         "CONTACT_FORM_URL",
@@ -60,6 +61,7 @@ class Storage {
     void append(Website website) {
         List<String> record = new ArrayList<>();
         record.add(website.getDomain());
+        record.add(website.getDomainCountry());
         record.add(website.getEmails());
         record.add(website.getPhones());
         record.add(website.getContactFormUrl());
