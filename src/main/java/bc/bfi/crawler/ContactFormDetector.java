@@ -45,7 +45,8 @@ class ContactFormDetector {
 
     private boolean isContactForm(Element form) {
         if (isSearchForm(form) || isSignInForm(form) || isSignUpForm(form)
-                || isDonateForm(form) || isSubscriptionForm(form)) {
+                || isDonateForm(form) || isSubscriptionForm(form)
+                || !isHasAtLeast2Fields(form)) {
             return false;
         }
         int score = 0;
@@ -128,5 +129,10 @@ class ContactFormDetector {
                 "button:matchesOwn((?i)sign.?up|register)"
         ).isEmpty();
         return hasPassword && hasSignup;
+    }
+
+    private boolean isHasAtLeast2Fields(Element form) {
+        Elements fields = form.select("input:not([type=hidden]), textarea");
+        return fields.size() >= 2;
     }
 }
