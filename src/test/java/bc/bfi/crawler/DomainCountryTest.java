@@ -10,7 +10,7 @@ public class DomainCountryTest {
     @Test
     public void detectsCountryFromUrl() {
         assertThat(Utils.getDomainCountry("https://example.ua"), is("Ukraine"));
-        assertThat(Utils.getDomainCountry("example.ru"), is("Russia"));
+        assertThat(Utils.getDomainCountry("example.ru"), is("Russian Federation"));
         assertThat(Utils.getDomainCountry("example.com"), is(""));
         assertThat(Utils.getDomainCountry("https://foo.bar.net/path"), is(""));
     }

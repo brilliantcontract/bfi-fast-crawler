@@ -252,6 +252,7 @@ class Utils {
         map.put("um", "United States Minor Outlying Islands");
         map.put("uy", "Uruguay");
         map.put("uz", "Uzbekistan");
+        map.put("uk", "United Kingdom");
         map.put("vu", "Vanuatu");
         map.put("ve", "Venezuela, Bolivarian Republic of");
         map.put("vn", "Viet Nam");
@@ -306,7 +307,7 @@ class Utils {
             return "";
         }
         host = host.toLowerCase();
-        host = host.replaceFirst(":\d+$", "");
+        host = host.replaceFirst(":\\d+$", "");
         String[] parts = host.split("\\.");
         if (parts.length == 0) {
             return "";
