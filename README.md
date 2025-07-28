@@ -35,6 +35,7 @@ The program prints the discovered information to the console and appends it to `
 - **urls-authors-verified.txt** and **urls-irs-verified.txt** – sample alternative URL lists.
 
 The crawler will automatically attempt a direct HTTP request first. If it fails, it falls back to the [ScrapeNinja](https://scrapeninja.p.rapidapi.com/) API as implemented in `Downloader`.
+If a page responds with `<title>Client Challenge</title>`, the crawler also retries that request using ScrapeNinja.
 
 ## Testing
 
