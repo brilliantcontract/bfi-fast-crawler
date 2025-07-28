@@ -46,9 +46,9 @@ public class Main {
             if (text.length() < 500) {
                 website.addMessage("Website most likely rendered with JavaScript");
             }
-            website.appendEmails(parser.extractEmail(page));
-            website.appendPhones(parser.extractPhone(page));
-            website.appendSocialLinks(parser.extractSocialLinks(page));
+            website.setEmails(parser.extractEmail(page));
+            website.setPhones(parser.extractPhone(page));
+            website.setSocialLinks(parser.extractSocialLinks(page));
 
             String contactUrl = parser.extractContactPageUrl(page, url);
             if (!contactUrl.isEmpty()) {

@@ -302,12 +302,12 @@ class Parser {
             phoneNumbers.removeIf(p -> p.length() == minLen);
         }
     }
-    
+
     private class EmailParser {
 
         private static final String emailRegex
                 = "(\\b|^)(?<value>[A-Za-z0-9\\-_]+[A-Za-z0-9\\-_.]*@[A-Za-z0-9.:\\-]+\\.[A-Za-z]{2,12})(\\b|$)";
-        
+
         private final List<String> excludedDomains = Arrays.asList(
                 "sentry.wixpress.com",
                 "sentry-next.wixpress.com",
@@ -315,7 +315,7 @@ class Parser {
                 "sentry.io",
                 "myftpupload.com"
         );
-        
+
         private final Pattern pattern;
 
         EmailParser() {
@@ -441,7 +441,7 @@ class Parser {
             }
 
             contactPageUrl = contactPageUrl.trim();
-            
+
             return contactPageUrl;
         }
 

@@ -9,7 +9,7 @@ public class WebsiteAppendTest {
     @Test
     public void appendEmailsFiltersDuplicates() {
         Website site = new Website("example.com");
-        site.appendEmails("a@x.com");
+        site.setEmails("a@x.com");
         site.appendEmails("A@x.com◙b@x.com");
         assertThat(site.getEmails(), is("a@x.com◙b@x.com"));
     }
@@ -17,7 +17,7 @@ public class WebsiteAppendTest {
     @Test
     public void appendPhonesFiltersDuplicates() {
         Website site = new Website("example.com");
-        site.appendPhones("(260) 420-6945");
+        site.setPhones("(260) 420-6945");
         site.appendPhones("260-420-6945");
         assertThat(site.getPhones(), is("(260) 420-6945"));
     }
@@ -25,7 +25,7 @@ public class WebsiteAppendTest {
     @Test
     public void appendSocialLinksFiltersDuplicates() {
         Website site = new Website("example.com");
-        site.appendSocialLinks("https://facebook.com/user");
+        site.setSocialLinks("https://facebook.com/user");
         site.appendSocialLinks("https://FACEBOOK.com/user");
         assertThat(site.getSocialLinks(), is("https://facebook.com/user"));
     }
