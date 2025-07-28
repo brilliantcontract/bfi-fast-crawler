@@ -8,6 +8,7 @@ import java.util.Map;
 class Website {
 
     private final String domain;
+    private String domainCountry = "";
     private String emails = "";
     private String phones = "";
     private String contactFormUrl = "";
@@ -102,6 +103,14 @@ class Website {
         return domain;
     }
 
+    String getDomainCountry() {
+        return domainCountry;
+    }
+
+    void setDomainCountry(String domainCountry) {
+        this.domainCountry = domainCountry;
+    }
+
     String getMessage() {
         return message;
     }
@@ -119,6 +128,7 @@ class Website {
 
     void print() {
         System.out.println("Domain: " + this.domain);
+        System.out.println("Domain country: " + this.domainCountry);
         System.out.println("Contact form: " + this.contactFormUrl);
         System.out.println("E-mails: " + this.emails);
         System.out.println("Phones: " + this.phones);
