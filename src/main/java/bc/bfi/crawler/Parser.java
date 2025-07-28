@@ -220,6 +220,7 @@ class Parser {
 
         private static final String phoneRegex
                 = "(?<!\\d)(?<value>(?:\\+?1[\\s.-]*)?\\(?\\d{3}\\)?[\\s.-]*\\d{3}[\\s.-]*\\d{4}|\\d{10,11}|\\d{2}-\\d{7})(?!\\d)";
+        private static final int ISBN_PREFIX_RANGE = 20;
         // Old regexp "(?<!\\d)(?<value>(?:\\+?1[\\s.-]*)?\\(?\\d{3}\\)?[\\s.-]*\\d{3}[\\s.-]*\\d{4}|\\d{10,11}|\\d{2}-\\d{7})(?!\\d)"
         private final Pattern pattern;
 
@@ -242,6 +243,13 @@ class Parser {
             Matcher matcher = pattern.matcher(pageContent);
 
             while (matcher.find()) {
+                int start = matcher.start();
+                int prefixStart = Math.max(0, start - ISBN_PREFIX_RANGE);
+                String prefix = pageContent.substring(prefixStart, start).toLowerCase();
+                if (prefix.contains("isbn")) {
+                    continue;
+                }
+
                 String phone = matcher.group("value");
                 phoneNumbers.add(phone);
             }
