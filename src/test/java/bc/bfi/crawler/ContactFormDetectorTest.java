@@ -71,6 +71,13 @@ public class ContactFormDetectorTest {
     }
 
     @Test
+    public void testIgnoresFormWithSingleField() {
+        String html = "<form><input name='email'></form>";
+        ContactFormDetector detector = new ContactFormDetector();
+        assertThat(detector.hasContactFormFromHtml(html), is(false));
+    }
+
+    @Test
     public void testIgnoresSignInFormByButton() {
         String html = "<form>" +
                 "<input type='text' name='user'>" +
