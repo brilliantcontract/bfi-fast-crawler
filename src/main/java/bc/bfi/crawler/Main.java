@@ -46,9 +46,9 @@ public class Main {
             if (text.length() < 500) {
                 website.addMessage("Website most likely rendered with JavaScript");
             }
-            website.setEmails(parser.extractEmail(page));
-            website.setPhones(parser.extractPhone(page));
-            website.setSocialLinks(parser.extractSocialLinks(page));
+            website.appendEmails(parser.extractEmail(page));
+            website.appendPhones(parser.extractPhone(page));
+            website.appendSocialLinks(parser.extractSocialLinks(page));
 
             String contactUrl = parser.extractContactPageUrl(page, url);
             if (!contactUrl.isEmpty()) {
@@ -60,15 +60,9 @@ public class Main {
                 if (hasForm) {
                     website.setContactFormUrl(contactUrl);
                 }
-                if (website.getEmails().isEmpty()) {
-                    website.setEmails(parser.extractEmail(contactPage));
-                }
-                if (website.getPhones().isEmpty()) {
-                    website.setPhones(parser.extractPhone(contactPage));
-                }
-                if (website.getSocialLinks().isEmpty()) {
-                    website.setSocialLinks(parser.extractSocialLinks(contactPage));
-                }
+                website.appendEmails(parser.extractEmail(contactPage));
+                website.appendPhones(parser.extractPhone(contactPage));
+                website.appendSocialLinks(parser.extractSocialLinks(contactPage));
             }
 
             website.print();
