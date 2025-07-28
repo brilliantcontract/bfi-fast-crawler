@@ -150,7 +150,7 @@ class Parser {
                 }
             }
             if (lower.contains("pinterest.com")) {
-                if (lower.matches("https?://www\\.pinterest\\.com/(?:pin|explore|search)/.*")) {
+                if (lower.matches("https?://www\\.pinterest\\.com/(?:pin|search)/.*")) {
                     return false;
                 }
             }
