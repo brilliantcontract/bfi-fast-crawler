@@ -52,13 +52,13 @@ class Downloader {
         try {
             page = loadWithDirectConnection(baseUrl);
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Cannot download " + baseUrl + " with direct connection.", ex);
+            logDownloadError(baseUrl, ex);
             if (baseUrl.startsWith("https://") && isSslException(ex)) {
                 String httpUrl = baseUrl.replaceFirst("^https://", "http://");
                 try {
                     page = loadWithDirectConnection(httpUrl);
                 } catch (IOException ex2) {
-                    LOGGER.log(Level.SEVERE, "Cannot download " + httpUrl + " with direct connection.", ex2);
+                    logDownloadError(httpUrl, ex2);
                 }
             }
         }
@@ -97,13 +97,13 @@ class Downloader {
         try {
             page = loadWithDirectConnection(url);
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Cannot download " + url + " with direct connection.", ex);
+            logDownloadError(url, ex);
             if (url.startsWith("https://") && isSslException(ex)) {
                 String httpUrl = url.replaceFirst("^https://", "http://");
                 try {
                     page = loadWithDirectConnection(httpUrl);
                 } catch (IOException ex2) {
-                    LOGGER.log(Level.SEVERE, "Cannot download " + httpUrl + " with direct connection.", ex2);
+                    logDownloadError(httpUrl, ex2);
                 }
             }
         }
@@ -238,6 +238,18 @@ class Downloader {
 
     private boolean isClientChallenge(String html) {
         return html != null && html.contains("<title>Client Challenge</title>");
+    }
+
+    private void logDownloadError(String url, IOException ex) {
+        if (isHttp403(ex)) {
+            LOGGER.severe("Cannot download " + url + " with direct connection. " + ex.getMessage());
+        } else {
+            LOGGER.log(Level.SEVERE, "Cannot download " + url + " with direct connection.", ex);
+        }
+    }
+
+    private boolean isHttp403(IOException ex) {
+        return ex.getMessage() != null && ex.getMessage().contains("403");
     }
 
     private boolean isSslException(IOException ex) {
