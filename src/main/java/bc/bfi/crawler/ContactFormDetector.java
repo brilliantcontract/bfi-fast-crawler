@@ -132,7 +132,7 @@ class ContactFormDetector {
     }
 
     private boolean isHasAtLeast2Fields(Element form) {
-        Elements fields = form.select("input:not([type=hidden]), textarea");
+        Elements fields = form.select("input:not([type=hidden]):not([type=submit]):not([type=button]), textarea");
         return fields.size() >= 2;
     }
 }
