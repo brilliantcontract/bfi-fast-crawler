@@ -63,6 +63,16 @@ class Downloader {
             }
         }
 
+        if (!page.isEmpty() && isClientChallenge(page)) {
+            System.out.println("Client Challenge detected. Try to download " + baseUrl + " with ScrapeNinja.");
+            scrapeNinjaUsed = true;
+            try {
+                page = loadWithScrapeNinja(baseUrl);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "Cannot download " + baseUrl + " with ScrapeNinja.", ex);
+            }
+        }
+
         if (page.isEmpty()) {
             System.out.println("Direct download failed. Try to download " + baseUrl + " with ScrapeNinja.");
             scrapeNinjaUsed = true;
@@ -95,6 +105,16 @@ class Downloader {
                 } catch (IOException ex2) {
                     LOGGER.log(Level.SEVERE, "Cannot download " + httpUrl + " with direct connection.", ex2);
                 }
+            }
+        }
+
+        if (!page.isEmpty() && isClientChallenge(page)) {
+            System.out.println("Client Challenge detected. Try to download " + url + " with ScrapeNinja.");
+            scrapeNinjaUsed = true;
+            try {
+                page = loadWithScrapeNinja(url);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "Cannot download " + url + " with ScrapeNinja.", ex);
             }
         }
 
@@ -214,6 +234,10 @@ class Downloader {
             baos.write(buffer, 0, len);
         }
         return baos.toByteArray();
+    }
+
+    private boolean isClientChallenge(String html) {
+        return html != null && html.contains("<title>Client Challenge</title>");
     }
 
     private boolean isSslException(IOException ex) {
