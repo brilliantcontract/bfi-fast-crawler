@@ -313,7 +313,8 @@ class Parser {
                 "sentry-next.wixpress.com",
                 "domain.com",
                 "sentry.io",
-                "myftpupload.com"
+                "myftpupload.com",
+                "mysite.com"
         );
 
         private final Pattern pattern;
