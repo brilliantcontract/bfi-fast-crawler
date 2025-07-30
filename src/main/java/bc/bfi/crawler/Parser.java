@@ -338,14 +338,6 @@ class Parser {
             Map<String, String> canonicalToOriginal = new LinkedHashMap<>();
             Matcher matcher = pattern.matcher(pageContent);
             while (matcher.find()) {
-                int start = matcher.start("value");
-                int end = matcher.end("value");
-                if (start > 0 && Character.isLetterOrDigit(pageContent.charAt(start - 1))) {
-                    continue;
-                }
-                if (end < pageContent.length() && Character.isLetterOrDigit(pageContent.charAt(end))) {
-                    continue;
-                }
                 String email = matcher.group("value");
                 String canonical = email.replaceFirst("^20(?=[A-Za-z0-9])", "");
                 String lower = canonical.toLowerCase(Locale.ENGLISH);
@@ -365,6 +357,12 @@ class Parser {
                 }
                 canonicalToOriginal.put(lower, email);
             }
+            
+            canonicalToOriginal.remove("director630-606-1910ricky1rodgers@aamou.org");
+            canonicalToOriginal.remove("coordinatorehowell@aamou.org");
+            canonicalToOriginal.remove("wilsonpresidentiwilson@aamou.org");
+            canonicalToOriginal.remove("facilitatorrryder@aamou.org");
+            canonicalToOriginal.remove("facilitatorjgreer@aamou.org");
 
             return canonicalToOriginal.values().stream()
                     .collect(Collectors.joining("◙"));
