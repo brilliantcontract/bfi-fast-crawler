@@ -338,6 +338,14 @@ class Parser {
             Map<String, String> canonicalToOriginal = new LinkedHashMap<>();
             Matcher matcher = pattern.matcher(pageContent);
             while (matcher.find()) {
+                int start = matcher.start("value");
+                int end = matcher.end("value");
+                if (start > 0 && Character.isLetterOrDigit(pageContent.charAt(start - 1))) {
+                    continue;
+                }
+                if (end < pageContent.length() && Character.isLetterOrDigit(pageContent.charAt(end))) {
+                    continue;
+                }
                 String email = matcher.group("value");
                 String canonical = email.replaceFirst("^20(?=[A-Za-z0-9])", "");
                 String lower = canonical.toLowerCase(Locale.ENGLISH);
