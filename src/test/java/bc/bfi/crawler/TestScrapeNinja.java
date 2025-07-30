@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.io.StringReader;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Ignore;
@@ -43,8 +47,18 @@ public class TestScrapeNinja {
             while ((line = in.readLine()) != null) {
                 response.append(line).append("\n");
             }
-            return response.toString();
+            return extractBodyFromScrapeNinjaResponse(response.toString());
         }
+    }
+
+    private String extractBodyFromScrapeNinjaResponse(String json) {
+        try (JsonReader reader = Json.createReader(new StringReader(json))) {
+            JsonObject obj = reader.readObject();
+            if (obj.containsKey("body")) {
+                return obj.getString("body");
+            }
+        }
+        return json;
     }
 
 }
