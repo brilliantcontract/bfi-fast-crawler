@@ -210,6 +210,18 @@ class Downloader {
             String newUrl = connection.getHeaderField("Location");
             String cookies = connection.getHeaderField("Set-Cookie");
 
+            if (newUrl == null && status == HttpURLConnection.HTTP_MOVED_PERM) {
+                URL current = connection.getURL();
+                String host = current.getHost();
+                if (!host.startsWith("www.")) {
+                    newUrl = current.getProtocol() + "://www." + host + current.getFile();
+                }
+            }
+
+            if (newUrl == null) {
+                return connection;
+            }
+
             connection = (HttpURLConnection) new URL(newUrl).openConnection();
             if (headers != null) {
                 for (Map.Entry<String, String> header : headers.entrySet()) {
