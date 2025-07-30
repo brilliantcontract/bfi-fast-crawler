@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,6 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import org.brotli.dec.BrotliInputStream;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 class Downloader {
 
@@ -154,8 +158,20 @@ class Downloader {
             while ((line = in.readLine()) != null) {
                 response.append(line).append("\n");
             }
-            return response.toString();
+            return extractBodyFromScrapeNinjaResponse(response.toString());
         }
+    }
+
+    private String extractBodyFromScrapeNinjaResponse(String json) {
+        try (JsonReader reader = Json.createReader(new StringReader(json))) {
+            JsonObject obj = reader.readObject();
+            if (obj.containsKey("body")) {
+                return obj.getString("body");
+            }
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Failed to parse ScrapeNinja response", ex);
+        }
+        return json;
     }
 
     private String loadWithDirectConnection(final String url) throws IOException {
